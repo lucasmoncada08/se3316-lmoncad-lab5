@@ -7,4 +7,26 @@
 <p class="">Course Code: </p>
 <input #courseSearchCourseCode/>
 
+<button class="textBtn" id=""
+(click)="onSearchCourses(courseSearchSubj.value, courseSearchCourseCode.value)">Search</button>
+
+<mat-accordion *ngIf="courseQueryShow">
+  <mat-expansion-panel *ngFor="let post of posts">
+    <mat-expansion-panel-header>
+      <p class="glance-info">Subject: {{ post.catalog_nbr }}</p>
+      <p class="glance-info">Course #: {{ post.subject }}</p>
+      <p class="glance-info">Name: {{ post.className }}</p>
+      <p class="glance-info">Section: {{ post.course_info[0].class_section }}</p>
+      <p class="glance-info">Component: {{ post.course_info[0].ssr_component }}</p>
+      <p class="glance-info">Time: {{ post.course_info[0].start_time }} - {{ post.course_info[0].end_time }}</p>
+      <p class="glance-info">Days: {{ post.course_info[0].days }}</p>
+    </mat-expansion-panel-header>
+    <p class="extra-info">Description: {{ post.catalog_description }}</p>
+    <p class="extra-info">Requisites: {{ post.course_info[0].descrlong }}</p>
+    <p class="extra-info">Campus: {{ post.course_info[0].campus }} </p>
+    <p class="extra-info">Location: {{ post.course_info[0].facility_ID }}</p>
+    <p class="extra-info">Enrollment: {{ post.course_info[0].enrl_stat }} </p>
+  </mat-expansion-panel>
+</mat-accordion>
+
 <br>

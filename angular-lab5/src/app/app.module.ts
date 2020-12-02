@@ -7,7 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { CourseSearchComponent } from './course-search/course-search.component';
 import { KeywordSearchComponent } from './keyword-search/keyword-search.component';
 
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { KeywordSearchComponent } from './keyword-search/keyword-search.componen
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

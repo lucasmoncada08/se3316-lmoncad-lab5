@@ -6,3 +6,25 @@ p {
 h3 {
   margin-top: 3rem;
 }
+
+button {
+  background-color: rgb(79, 38, 131);
+  color: white;
+  margin-left: 2rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 95%;
+}
+
+.glance-info {
+  font-size: 85%;
+  display: block;
+}
+
+.extra-info {
+  font-size: 85%;
+  display: block;
+}
+
+.mat-expansion-panel-header {
+  height: 150px;
+}
