@@ -10,21 +10,32 @@
 <br> <br>
 
 <div id="loginBox">
+
   <div id="loginTitles">
-    <p id="createAccountHeading">Create an Account</p>
-    <p id="loginHeading">Log into Account</p>
+    <button class="textBtn" id="createAccountHeading"
+    (click)="loginFieldsShow()">Create an Account</button>
+    <button class="textBtn" id="loginHeading"
+    (click)="passwordFieldsShow()">Log into Account</button>
   </div>
+
   <div id="loginBoxDivider"></div>
   <p class="loginEntries">Username: </p>
   <input #username/>
+
   <br>
+
   <p class="loginEntries">Password: </p>
   <input #password type="password"/>
+
   <br>
+
   <p class="loginEntries">Confirm Password: </p>
   <input #password type="password"/>
+
   <button class="loginButton hidden" (click)="onLogin()">Login</button>
   <button class="loginButton" (click)="onNewUser()">Create</button>
+
+  <button class="textBtn" id="continueBtn" (click)="onNewUser()">Continue as Guest >></button>
 </div>
 
 <br>

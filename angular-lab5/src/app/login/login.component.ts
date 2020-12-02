@@ -16,4 +16,12 @@ export class LoginComponent {
 
   }
 
+  loginFieldsShow() {
+
+  }
+
+  passwordFieldsShow() {
+
+  }
+
 }
