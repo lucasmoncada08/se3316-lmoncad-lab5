@@ -6,3 +6,27 @@
   show the timetable view for a created list, modify the aspects of a current course
   list, and add a review to a course
 </p>
+
+<br> <br>
+
+<div id="loginBox">
+  <div id="loginTitles">
+    <p id="createAccountHeading">Create an Account</p>
+    <p id="loginHeading">Log into Account</p>
+  </div>
+  <div id="loginBoxDivider"></div>
+  <p class="loginEntries">Username: </p>
+  <input #username/>
+  <br>
+  <p class="loginEntries">Password: </p>
+  <input #password type="password"/>
+  <br>
+  <p class="loginEntries">Confirm Password: </p>
+  <input #password type="password"/>
+  <button class="loginButton hidden" (click)="onLogin()">Login</button>
+  <button class="loginButton" (click)="onNewUser()">Create</button>
+</div>
+
+<br>
+
+

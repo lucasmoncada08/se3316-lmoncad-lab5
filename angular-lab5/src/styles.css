@@ -3,6 +3,21 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.hidden {
+  display: none;
+}
+
+.loginButton {
+  margin-left: 1.5rem;
+  margin-right: 2rem;
+}
+
+.loginEntries {
+  margin-left: 22%;
+  margin-right: 1rem;
+  display: inline-block;
+}
+
 .title {
   color: rgb(79, 38, 131);
   text-decoration: solid;
@@ -13,3 +28,31 @@
   text-align: center;
   margin: 0 8rem;
 }
+
+#createAccountHeading {
+  display: inline-block;
+  margin-right: 2.5rem;
+}
+
+#loginBox {
+  margin: 0 10rem;
+  background-color: rgb(79, 38, 131);
+  color: white;
+  border-style: groove;
+}
+
+#loginBoxDivider {
+  height: 2.5px;
+  background-color: #EAEFF5;
+  margin-bottom: 1rem;
+}
+
+#loginHeading {
+  display: inline-block;
+  margin-left: 2.5rem;
+}
+
+#loginTitles {
+  text-align: center;
+}
+
