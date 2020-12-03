@@ -6,3 +6,19 @@ p {
 h3 {
   margin-top: 3rem;
 }
+
+input:invalid {
+  border: 2px dashed red;
+}
+
+input:invalid:focus {
+  background-image: linear-gradient(pink, rgb(255, 50, 50));
+}
+
+button {
+  background-color: rgb(79, 38, 131);
+  color: white;
+  margin-left: 2rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 95%;
+}
