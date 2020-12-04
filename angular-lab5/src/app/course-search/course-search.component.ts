@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'course-search',
@@ -8,7 +9,10 @@ import { Component } from '@angular/core';
 
 export class CourseSearchComponent {
 
+  constructor(private http: HttpClient) {};
+
   courseQueryShow = false;
+  courses;
 
   posts = [
   {
@@ -69,8 +73,20 @@ export class CourseSearchComponent {
     // this.subjectCode = subjCode;
     // this.courCode = courseCode;
 
-    this.courseQueryShow = true;
+    if (subjCode == '') {
+      subjCode = 'null';
+    }
 
+    if (courseCode == '') {
+      courseCode = 'null';
+    }
+
+    this.http.get(`http://localhost:3000/api/coursesearch/${courseCode}/${subjCode}`)
+    .subscribe((courseData) => {
+      this.courses = courseData;
+    });
+
+    this.courseQueryShow = true;
 
   }
 

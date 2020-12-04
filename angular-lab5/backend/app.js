@@ -28,12 +28,13 @@ app.use((req, res, next) => {
 })
 
 app.get('/api/coursesearch/:courseCode/:subjCode', (req, res, next) => {
-  console.log('course search');
 
   var courseCodeFilteredCourses = [];
   var fullyFilteredCourses = [];
   var csCourseCode = req.params.courseCode;
   var csSubjCode = req.params.subjCode;
+
+  console.log(`course search with ${csSubjCode} and ${csCourseCode}`);
 
   if (csCourseCode != 'null') {
     if (csCourseCode.length >= 4) {
