@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CourseSearchComponent } from './course-search/course-search.component';
 import { KeywordSearchComponent } from './keyword-search/keyword-search.component';
+import { CourseListsComponent } from './course-lists/course-lists.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
@@ -17,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     LoginComponent,
     CourseSearchComponent,
-    KeywordSearchComponent
+    KeywordSearchComponent,
+    CourseListsComponent
   ],
   imports: [
     BrowserModule,

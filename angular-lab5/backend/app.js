@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-// const CourseData = require('./models/course-data');
+const CourseList = require('./models/course-lists');
 
 const app = express();
 
@@ -25,6 +25,63 @@ app.use((req, res, next) => {
    'GET, POST, PATCH, DELETE, OPTIONS'
   );
   next();
+})
+
+app.post('/api/courselists', (req, res, next) => {
+  console.log('Posting to course list');
+
+  var name = "Lucas Moncada's 2nd Semester 2020/2021";
+  var creator = 'Lucas Moncada';
+  var date = new Date()
+  var day = date.getUTCDay() - 2;
+  var month = date.getUTCMonth();
+  var year = date.getUTCFullYear();
+  var body = [
+    {
+      courseId: '2270A',
+      subjCode: 'APPLMATH'
+    },
+    {
+      courseId: '3313A',
+      subjCode: 'SE'
+    },
+    {
+      courseId: '3352A',
+      subjCode: 'SE'
+    },
+    {
+      courseId: '3316A',
+      subjCode: 'SE'
+    },
+    {
+      courseId: '3309A',
+      subjCode: 'SE'
+    }
+  ]
+
+  const courseList = new CourseList({
+    name: name,
+    creator: creator,
+    descr: 'Description',
+    modifiedData: {
+      day: day,
+      month: month,
+      year: year
+    },
+    courses: body,
+    privacy: 'Public'
+  })
+
+  courseList.save();
+
+  res.send(courseList);
+
+})
+
+app.get('/api/courselists/public', (req, res, next) => {
+  CourseList.find({privacy: 'Public'}).then(lists => {
+    res.send(lists);
+  })
 })
 
 app.get('/api/coursesearch/:courseCode/:subjCode', (req, res, next) => {
