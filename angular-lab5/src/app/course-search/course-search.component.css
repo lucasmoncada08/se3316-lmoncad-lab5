@@ -28,3 +28,10 @@ button {
 .mat-expansion-panel-header {
   height: 150px;
 }
+
+#noQueriesMsg {
+  display: block;
+  font-weight: 600;
+  padding-left: 4rem;
+  padding-top: 2rem;
+}

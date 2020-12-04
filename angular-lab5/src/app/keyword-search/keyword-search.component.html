@@ -7,6 +7,31 @@
 <p class="">Course Name: </p>
 <input minlength="4" #keywordSearchName/>
 
-<button class="textBtn">Search</button>
+<button class="textBtn"
+ (click)="onKeySearchCourses(keywordSearchCourseCode.value, keywordSearchName.value)">
+ Search</button>
+
+<p id="noQueriesMsg" *ngIf='noQueries'>No Results Were Found.</p>
+
+<p id="tooShortMsg" *ngIf='moreChars'>Keyword Query is Too Short (>3 Letters).</p>
+
+<mat-accordion *ngIf="courseQueryShow">
+  <mat-expansion-panel *ngFor="let course of courses">
+    <mat-expansion-panel-header>
+      <p class="glance-info">Subject: {{ course.subject }}</p>
+      <p class="glance-info">Course #: {{ course.catalog_nbr }}</p>
+      <p class="glance-info">Name: {{ course.className }}</p>
+      <p class="glance-info">Section: {{ course.course_info[0].class_section }}</p>
+      <p class="glance-info">Component: {{ course.course_info[0].ssr_component }}</p>
+      <p class="glance-info">Time: {{ course.course_info[0].start_time }} - {{ course.course_info[0].end_time }}</p>
+      <p class="glance-info">Days: {{ course.course_info[0].days }}</p>
+    </mat-expansion-panel-header>
+    <p class="extra-info">Description: {{ course.catalog_description }}</p>
+    <p class="extra-info">Requisites: {{ course.course_info[0].descrlong }}</p>
+    <p class="extra-info">Campus: {{ course.course_info[0].campus }} </p>
+    <p class="extra-info">Location: {{ course.course_info[0].facility_ID }}</p>
+    <p class="extra-info">Enrollment: {{ course.course_info[0].enrl_stat }} </p>
+  </mat-expansion-panel>
+</mat-accordion>
 
 <br>

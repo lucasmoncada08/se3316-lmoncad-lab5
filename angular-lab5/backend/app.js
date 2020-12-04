@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const CourseData = require('./models/course-data');
+// const CourseData = require('./models/course-data');
 
 const app = express();
 
@@ -54,6 +54,45 @@ app.get('/api/coursesearch/:courseCode/:subjCode', (req, res, next) => {
         fullyFilteredCourses = fullyFilteredCourses.concat(courseCodeFilteredCourses[i]);
       }
     }
+  }
+  else if (courseCodeFilteredCourses.length < 1) {
+    // pass
+  }
+  else
+    fullyFilteredCourses = courseCodeFilteredCourses;
+
+  res.send(fullyFilteredCourses);
+})
+
+app.get('/api/coursekeywordsearch/:courseCode/:courseName', (req, res, next) => {
+
+  var courseCodeFilteredCourses = [];
+  var fullyFilteredCourses = [];
+  var ksCourseCode = req.params.courseCode;
+  var ksCourseName = req.params.courseName;
+
+  console.log(`keyword course search with ${ksCourseCode} and ${ksCourseName}`);
+
+  if (ksCourseCode != 'null') {
+    if (ksCourseCode.length >= 4) {
+      for (var i=0; i<courseData.length; i++) {
+        if (String(courseData[i].catalog_nbr).toLowerCase().includes(ksCourseCode.toLowerCase())) {
+          courseCodeFilteredCourses = courseCodeFilteredCourses.concat(courseData[i]);
+        }
+      }
+    }
+  }
+  else if (ksCourseName != 'null')
+    courseCodeFilteredCourses = courseData;
+
+  if (ksCourseName != 'null') {
+    if (ksCourseName.length >= 4) {
+      for (var i=0; i<courseCodeFilteredCourses.length; i++) {
+        if (courseCodeFilteredCourses[i].className.toLowerCase().includes(ksCourseName.toLowerCase())) {
+          fullyFilteredCourses = fullyFilteredCourses.concat(courseCodeFilteredCourses[i]);
+        }
+      }
+  }
   }
   else if (courseCodeFilteredCourses.length < 1) {
     // pass

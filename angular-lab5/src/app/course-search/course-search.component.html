@@ -10,6 +10,8 @@
 <button class="textBtn" id=""
 (click)="onSearchCourses(courseSearchSubj.value, courseSearchCourseCode.value)">Search</button>
 
+<p id="noQueriesMsg" *ngIf='noQueries'>No Results Were Found.</p>
+
 <mat-accordion *ngIf="courseQueryShow">
   <mat-expansion-panel *ngFor="let course of courses">
     <mat-expansion-panel-header>
