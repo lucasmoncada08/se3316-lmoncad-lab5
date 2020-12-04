@@ -1,5 +1,3 @@
-//
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -26,65 +24,43 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers',
    'GET, POST, PATCH, DELETE, OPTIONS'
   );
+  next();
 })
 
-app.use('/api',(req, res, next) => {
-  const posts = [
-    {
-      "catalog_nbr": "1021B",
-      "subject": "ACTURSCI",
-      "className": "INTRO TO FINANCIAL SECURE SYS",
-      "course_info": [
-        {
-          "class_nbr": 5538,
-          "start_time": "8:30 AM",
-          "descrlong": "",
-          "end_time": "9:30 AM",
-          "campus": "Main",
-          "facility_ID": "PAB-106",
-          "days": [
-            "M",
-            "W",
-            "F"
-          ],
-          "instructors": [],
-          "class_section": "001",
-          "ssr_component": "LEC",
-          "enrl_stat": "Not full",
-          "descr": "RESTRICTED TO YR 1 STUDENTS."
-        }
-      ],
-      "catalog_description": "The nature and cause of financial security and insecurity; public, private and employer programs and products to reduce financial insecurity, including social security, individual insurance and annuities along with employee pensions and benefits.\n\nExtra Information: 3 lecture hours."
-    },
-    {
-      "catalog_nbr": 2053,
-      "subject": "ACTURSCI",
-      "className": "MATH FOR FINANCIAL ANALYSIS",
-      "course_info": [
-        {
-          "class_nbr": 1592,
-          "start_time": "11:30 AM",
-          "descrlong": "Prerequisite(s):1.0 course or two 0.5 courses at the 1000 level or higher from Applied Mathematics, Calculus, or Mathematics.",
-          "end_time": "12:30 PM",
-          "campus": "Main",
-          "facility_ID": "NCB-113",
-          "days": [
-            "M",
-            "W",
-            "F"
-          ],
-          "instructors": [],
-          "class_section": "001",
-          "ssr_component": "LEC",
-          "enrl_stat": "Full",
-          "descr": ""
-        }
-      ],
-      "catalog_description": "Simple and compound interest, annuities, amortization, sinking funds, bonds, bond duration, depreciation, capital budgeting, probability, mortality tables, life annuities, life insurance, net premiums and expenses. Cannot be taken for credit in any module in Statistics or Actuarial Science, Financial Modelling or Statistics, other than the minor in Applied Financial Modeling.\n\nAntirequisite(s): Actuarial Science 2553A/B.\n\nExtra Information: 3 lecture hours."
-    }
-    ]
+app.get('/api/coursesearch/:courseCode/:subjCode', (req, res, next) => {
+  console.log('course search');
 
-  res.status(200).json(posts);
+  var courseCodeFilteredCourses = [];
+  var fullyFilteredCourses = [];
+  var csCourseCode = req.params.courseCode;
+  var csSubjCode = req.params.subjCode;
+
+  if (csCourseCode != 'null') {
+    if (csCourseCode.length >= 4) {
+      for (var i=0; i<courseData.length; i++) {
+        if (String(courseData[i].catalog_nbr).toLowerCase().includes(csCourseCode.toLowerCase())) {
+          courseCodeFilteredCourses = courseCodeFilteredCourses.concat(courseData[i]);
+        }
+      }
+    }
+  }
+  else if (csSubjCode != 'null')
+    courseCodeFilteredCourses = courseData;
+
+  if (csSubjCode != 'null') {
+    for (var i=0; i<courseCodeFilteredCourses.length; i++) {
+      if (courseCodeFilteredCourses[i].subject == csSubjCode) {
+        fullyFilteredCourses = fullyFilteredCourses.concat(courseCodeFilteredCourses[i]);
+      }
+    }
+  }
+  else if (courseCodeFilteredCourses.length < 1) {
+    // pass
+  }
+  else
+    fullyFilteredCourses = courseCodeFilteredCourses;
+
+  res.send(fullyFilteredCourses);
 })
 
 module.exports = app
