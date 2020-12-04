@@ -38,23 +38,23 @@ app.post('/api/courselists', (req, res, next) => {
   var year = date.getUTCFullYear();
   var body = [
     {
-      courseId: '2270A',
+      courseId: '2270B',
       subjCode: 'APPLMATH'
     },
     {
-      courseId: '3313A',
+      courseId: '3310B',
       subjCode: 'SE'
     },
     {
-      courseId: '3352A',
+      courseId: '3314B',
       subjCode: 'SE'
     },
     {
-      courseId: '3316A',
+      courseId: '3350B',
       subjCode: 'SE'
     },
     {
-      courseId: '3309A',
+      courseId: '3351B',
       subjCode: 'SE'
     }
   ]
@@ -62,8 +62,8 @@ app.post('/api/courselists', (req, res, next) => {
   const courseList = new CourseList({
     name: name,
     creator: creator,
-    descr: 'Description',
-    modifiedData: {
+    descr: 'Description 2',
+    modifiedDate: {
       day: day,
       month: month,
       year: year

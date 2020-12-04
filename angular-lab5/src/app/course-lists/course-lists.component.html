@@ -1,0 +1,15 @@
+<h3>Public Course Lists: </h3>
+
+<mat-accordion *ngIf='courselists'>
+  <mat-expansion-panel *ngFor="let list of courselists">
+    <mat-expansion-panel-header>
+      <p class="glance-info">Name: {{ list?.name }}</p>
+      <p class="glance-info">Creator #: {{ list?.creator }}</p>
+      <p class="glance-info">Name: {{ list?.courses.length }}</p>
+      <p class="glance-info">Section: {{ list?.modifiedDate }}</p>
+    </mat-expansion-panel-header>
+    <p class="extra-info">Description: {{ list?.descr }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<br>

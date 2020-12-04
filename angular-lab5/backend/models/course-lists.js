@@ -15,7 +15,7 @@ const courseListsSchema = mongoose.Schema({
   name: String,
   creator: String,
   descr: String,
-  modifiedData: dateSchema,
+  modifiedDate: dateSchema,
   courses: [courseSchema],
   privacy: String
 })

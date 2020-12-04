@@ -1,0 +1,17 @@
+h3 {
+  margin-top: 3rem;
+}
+
+.glance-info {
+  font-size: 85%;
+  display: block;
+}
+
+.extra-info {
+  font-size: 85%;
+  display: block;
+}
+
+.mat-expansion-panel-header {
+  height: 150px;
+}
