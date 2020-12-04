@@ -1,5 +1,5 @@
 p {
-  margin-left: 5%;
+  margin-left: 3%;
   display: inline-block;
 }
 
@@ -26,7 +26,7 @@ button {
 }
 
 .mat-expansion-panel-header {
-  height: 150px;
+  height: 90px;
 }
 
 #noQueriesMsg {

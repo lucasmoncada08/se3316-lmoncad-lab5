@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const CourseList = require('./models/course-lists');
+const { db } = require('./models/course-lists');
 
 const app = express();
 
@@ -30,31 +31,31 @@ app.use((req, res, next) => {
 app.post('/api/courselists', (req, res, next) => {
   console.log('Posting to course list');
 
-  var name = "Lucas Moncada's 2nd Semester 2020/2021";
+  var name = "Lucas Moncada's 1st Semester 2020/2021";
   var creator = 'Lucas Moncada';
   var date = new Date()
-  var day = date.getUTCDay() - 2;
-  var month = date.getUTCMonth();
+  var day = date.getUTCDay() - 1;
+  var month = date.getUTCMonth() - 1;
   var year = date.getUTCFullYear();
   var body = [
     {
-      courseId: '2270B',
+      courseId: '2270A',
       subjCode: 'APPLMATH'
     },
     {
-      courseId: '3310B',
+      courseId: '3313A',
       subjCode: 'SE'
     },
     {
-      courseId: '3314B',
+      courseId: '3316A',
       subjCode: 'SE'
     },
     {
-      courseId: '3350B',
+      courseId: '3309A',
       subjCode: 'SE'
     },
     {
-      courseId: '3351B',
+      courseId: '3352A',
       subjCode: 'SE'
     }
   ]
@@ -62,7 +63,7 @@ app.post('/api/courselists', (req, res, next) => {
   const courseList = new CourseList({
     name: name,
     creator: creator,
-    descr: 'Description 2',
+    descr: 'Description 1',
     modifiedDate: {
       day: day,
       month: month,
@@ -79,7 +80,8 @@ app.post('/api/courselists', (req, res, next) => {
 })
 
 app.get('/api/courselists/public', (req, res, next) => {
-  CourseList.find({privacy: 'Public'}).then(lists => {
+  CourseList.find({privacy: 'Public'})
+  .then(lists => {
     res.send(lists);
   })
 })

@@ -22,7 +22,7 @@ export class CourseListsComponent implements OnInit {
     this.http.get('http://localhost:3000/api/courselists/public')
     .subscribe(courselists => {
       this.courselists = courselists
-      // console.log(this.courselists);
+      console.log(this.courselists);
     })
   }
 

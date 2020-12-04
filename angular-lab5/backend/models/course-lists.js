@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const dateSchema = mongoose.Schema({
-  day: String,
-  month: String,
-  year: String
+  day: Number,
+  month: Number,
+  year: Number
 })
 
 const courseSchema = mongoose.Schema({
