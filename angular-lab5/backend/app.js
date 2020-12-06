@@ -37,10 +37,12 @@ app.post('/api/courselists/add', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   console.log('Posting to course list');
 
-  var date = new Date()
-  var day = date.getUTCDay() - 1;
+  var date = new Date();
+  var day = date.getUTCDate() - 1;
   var month = date.getUTCMonth() + 1;
   var year = date.getUTCFullYear();
+
+  console.log(day);
 
   const courseList = new CourseList({
     name: req.body.name,
@@ -146,12 +148,12 @@ app.get('/api/coursekeywordsearch/:courseCode/:courseName', (req, res, next) => 
   res.send(fullyFilteredCourses);
 })
 
-app.delete('/api/courselists/delete/:listName', (req, res, next) => {
-  console.log('Deleting course list: ' + req.params.listName);
-  CourseList.deleteOne({ name: req.params.listName }).then(result => {
+app.delete('/api/courselists/delete', (req, res, next) => {
+  console.log('Deleting course list: ' + req.body.name);
+  CourseList.deleteOne({ name: req.body.name }).then(result => {
     console.log(result);
   })
-  res.send(req.params.listName);
+  res.send(req.body.name);
 })
 
 module.exports = app

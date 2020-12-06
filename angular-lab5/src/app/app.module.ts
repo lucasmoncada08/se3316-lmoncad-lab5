@@ -7,9 +7,11 @@ import { LoginComponent } from './login/login.component';
 import { CourseSearchComponent } from './course-search/course-search.component';
 import { KeywordSearchComponent } from './keyword-search/keyword-search.component';
 import { CourseListsComponent } from './course-lists/course-lists.component';
+import { HeaderComponent } from './header/header.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -19,14 +21,16 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     CourseSearchComponent,
     KeywordSearchComponent,
-    CourseListsComponent
+    CourseListsComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatCardModule,
     MatExpansionModule,
-    HttpClientModule
+    HttpClientModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

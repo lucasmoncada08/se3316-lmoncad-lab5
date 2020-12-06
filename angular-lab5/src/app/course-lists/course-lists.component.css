@@ -35,3 +35,7 @@ p {
 #courseListTitle {
   margin-bottom: 0%;
 }
+
+#deleteButton {
+  margin-left: 3rem;
+}

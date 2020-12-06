@@ -82,6 +82,18 @@ export class CourseListsComponent implements OnInit {
 
   }
 
+  onDeleteCourseList(clName) {
+
+    const options = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+      body: {"name": clName}
+    }
+
+    this.http.delete(`http://localhost:3000/api/courselists/delete`, options).subscribe(res => {
+      console.log(res)
+    })
+  }
+
 }
 
 // {

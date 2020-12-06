@@ -1,16 +1,16 @@
 <h3>Public Course Lists: </h3>
 
 <mat-accordion *ngIf='courselists'>
-  <mat-expansion-panel *ngFor="let list of courselists">
-    <mat-expansion-panel-header>
-      <p class="glance-info">Name: {{ list?.name }}</p>
-      <p class="glance-info">Creator: {{ list?.creator }}</p>
-      <p class="glance-info"># of Courses: {{ list?.courses.length }}</p>
-      <p class="glance-info">Modified Date: {{ list?.modifiedDate.month }}/{{ list?.modifiedDate.day }}/{{ list?.modifiedDate.year }}</p>
-    </mat-expansion-panel-header>
-    <p class="extra-info">Description: {{ list?.descr }}</p>
-    <p id="courseListTitle"  class="extra-info">Courses: </p>
-    <ul>
+  <mat-expansion-panel *ngFor="let list of courselists; let i=index">
+      <mat-expansion-panel-header *ngIf='i<10'>
+        <p class="glance-info">Name: {{ i }} {{ list?.name }}</p>
+        <p class="glance-info">Creator: {{ list?.creator }}</p>
+        <p class="glance-info"># of Courses: {{ list?.courses.length }}</p>
+        <p class="glance-info">Modified Date: {{ list?.modifiedDate.month }}/{{ list?.modifiedDate.day }}/{{ list?.modifiedDate.year }}</p>
+      </mat-expansion-panel-header>
+    <p class="extra-info" *ngIf='i<10'>Description: {{ list?.descr }}</p>
+    <p id="courseListTitle" class="extra-info" *ngIf='i<10'>Courses: </p>
+    <ul *ngIf='i<10'>
       <li class="extra-info" *ngFor='let course of list?.courses'>{{ course.subjCode }} - {{ course.courseId }}</li>
     </ul>
   </mat-expansion-panel>
@@ -75,3 +75,11 @@
 <button (click)='addCourseList(clName.value, clCreator.value, clDescr.value,
 clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
 c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)'>Create</button>
+
+<br>
+<br>
+
+<h2>Delete a Schedule</h2>
+<p class="">Course List Name: </p>
+<input #clDeleteName/>
+<button id='deleteButton' (click)='onDeleteCourseList(clDeleteName.value)'>Delete</button>
