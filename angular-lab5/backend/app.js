@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const CourseList = require('./models/course-lists');
-const { db } = require('./models/course-lists');
 
 const app = express();
 
@@ -17,6 +17,11 @@ mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.ne
 
 app.use(bodyParser.json());
 
+app.use(cors({
+  origin: ['http://localhost:4200'],
+  credentials: true
+}));
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers',
@@ -28,50 +33,29 @@ app.use((req, res, next) => {
   next();
 })
 
-app.post('/api/courselists', (req, res, next) => {
+app.post('/api/courselists/add', (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   console.log('Posting to course list');
 
-  var name = "Lucas Moncada's 1st Semester 2020/2021";
-  var creator = 'Lucas Moncada';
   var date = new Date()
   var day = date.getUTCDay() - 1;
-  var month = date.getUTCMonth() - 1;
+  var month = date.getUTCMonth() + 1;
   var year = date.getUTCFullYear();
-  var body = [
-    {
-      courseId: '2270A',
-      subjCode: 'APPLMATH'
-    },
-    {
-      courseId: '3313A',
-      subjCode: 'SE'
-    },
-    {
-      courseId: '3316A',
-      subjCode: 'SE'
-    },
-    {
-      courseId: '3309A',
-      subjCode: 'SE'
-    },
-    {
-      courseId: '3352A',
-      subjCode: 'SE'
-    }
-  ]
 
   const courseList = new CourseList({
-    name: name,
-    creator: creator,
-    descr: 'Description 1',
+    name: req.body.name,
+    creator: req.body.creator,
+    descr: req.body.descr,
     modifiedDate: {
       day: day,
       month: month,
       year: year
     },
-    courses: body,
-    privacy: 'Public'
+    courses: req.body.courses,
+    privacy: req.body.privacy
   })
+
+  console.log(req.body);
 
   courseList.save();
 
@@ -160,6 +144,14 @@ app.get('/api/coursekeywordsearch/:courseCode/:courseName', (req, res, next) => 
     fullyFilteredCourses = courseCodeFilteredCourses;
 
   res.send(fullyFilteredCourses);
+})
+
+app.delete('/api/courselists/delete/:listName', (req, res, next) => {
+  console.log('Deleting course list: ' + req.params.listName);
+  CourseList.deleteOne({ name: req.params.listName }).then(result => {
+    console.log(result);
+  })
+  res.send(req.params.listName);
 })
 
 module.exports = app

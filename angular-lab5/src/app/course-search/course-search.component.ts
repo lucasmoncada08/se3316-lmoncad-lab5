@@ -35,6 +35,11 @@ export class CourseSearchComponent {
       this.courseQueryShow = true;
     });
 
+    this.http.get('http://localhost:3000/api/courselists/public')
+    .subscribe(courselists => {
+      // this.courselists = courselists
+      console.log(courselists);
+    })
   }
 
 }

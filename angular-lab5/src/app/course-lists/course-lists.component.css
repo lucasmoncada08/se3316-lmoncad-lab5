@@ -10,6 +10,14 @@ li {
   margin-left: 22%;
 }
 
+p {
+  display: inline;
+}
+
+/* .medInput {
+  size: 50;
+} */
+
 .glance-info {
   font-size: 85%;
   display: block;

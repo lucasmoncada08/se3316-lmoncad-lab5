@@ -8,7 +8,7 @@ const dateSchema = mongoose.Schema({
 
 const courseSchema = mongoose.Schema({
   courseId: String,
-  subjCode: String,
+  subjCode: String
 })
 
 const courseListsSchema = mongoose.Schema({

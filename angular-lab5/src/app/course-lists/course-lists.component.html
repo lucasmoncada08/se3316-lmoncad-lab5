@@ -17,3 +17,61 @@
 </mat-accordion>
 
 <br>
+<br>
+
+<div>
+  <h2>Creating a Course List</h2>
+
+  <br>
+
+  <p class="medInput" width="50">Course List Name: </p>
+  <input #clName/>
+
+  <p class="">Creator: </p>
+  <input #clCreator/>
+
+  <p class="">Description: </p>
+  <input class="longInput" #clDescr/>
+
+  <br>
+  <p class="">Private: </p>
+  <input type="checkbox" #clPrivacy/>
+
+  <br>
+  <br>
+
+  <h4>Courses</h4>
+
+  <p class="">Course 1: </p>
+  <input #c1CC value='Course Code'/>
+  <input #c1SC value='Subject Code'/>
+
+  <br>
+
+  <p class="">Course 2: </p>
+  <input #c2CC value='Course Code'/>
+  <input #c2SC value='Subject Code'/>
+
+  <br>
+
+  <p class="">Course 3: </p>
+  <input #c3CC value='Course Code'/>
+  <input #c3SC value='Subject Code'/>
+
+  <br>
+
+  <p class="">Course 4: </p>
+  <input #c4CC value='Course Code'/>
+  <input #c4SC value='Subject Code'/>
+
+  <br>
+
+  <p class="">Course 5: </p>
+  <input #c5CC value='Course Code'/>
+  <input #c5SC value='Subject Code'/>
+
+</div>
+
+<button (click)='addCourseList(clName.value, clCreator.value, clDescr.value,
+clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
+c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)'>Create</button>
