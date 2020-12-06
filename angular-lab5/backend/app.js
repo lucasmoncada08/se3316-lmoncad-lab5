@@ -1,9 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 const cors = require('cors');
 
 const CourseList = require('./models/course-lists');
+const User = require('./models/users');
 
 const app = express();
 
@@ -63,6 +67,60 @@ app.post('/api/courselists/add', (req, res, next) => {
 
   res.send(courseList);
 
+})
+
+app.post('/api/users/signup', (req, res, next) => {
+  console.log('Creating new user');
+
+  console.log(req.body)
+
+  bcrypt.hash(req.body.password, 10)
+    .then(hash => {
+    const user = new User({
+      username: req.body.username,
+      email: req.body.email,
+      password: hash,
+      admin: req.body.admin
+    })
+
+    user.save()
+    .then(result => {
+      res.send('User created');
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'In custom error',
+        error: err
+      });
+    });
+
+  })
+})
+
+app.post('/api/users/login', (req, res, next) => {
+  User.findOne({email: req.body.email }).then(user => {
+    if (!user) {
+      return res.status(401).json({
+        message: 'Auth Failed'
+      });
+    }
+    return bcrypt.compare(req.body.password, user.password)
+  })
+  .then(result => {
+    if (!result) {
+      return res.status(401).json({
+        message: 'Auth Failed'
+      });
+    }
+
+
+
+  })
+  .catch(err => {
+    return res.status(401).json({
+      message: 'Auth Failed'
+    });
+  });
 })
 
 app.get('/api/courselists/public', (req, res, next) => {
@@ -155,6 +213,7 @@ app.delete('/api/courselists/delete', (req, res, next) => {
   })
   res.send(req.body.name);
 })
+
 
 module.exports = app
 
