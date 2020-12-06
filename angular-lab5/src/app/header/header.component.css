@@ -1,4 +1,18 @@
 .header {
   background: rgb(79, 38, 131);
+  color: #ffffff;
+}
+
+a {
   color: white;
+  margin-left: 2rem;
+  /* font-size: 90%; */
+}
+
+.title {
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

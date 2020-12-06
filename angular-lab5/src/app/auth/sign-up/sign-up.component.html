@@ -1,0 +1,24 @@
+<p id="blurb">A site where students can search for courses, view course info,
+  list public course lists, and display public course lists in a timetable
+  <br> <br>
+  By creating an account and logging in, you are additionally able to create course lists,
+  show the timetable view for a created list, modify the aspects of a current course
+  list, and add a review to a course
+</p>
+
+<br> <br>
+
+<mat-card>
+  <mat-spinner *ngIf='isLoading'></mat-spinner>
+  <form (submit)='onLogin(loginForm)' #loginForm='ngForm'>
+    <mat-form-field>
+      <input matInput name='email' ngModel type='email' placeholder="Email" #emailInput='ngModel' required email>
+      <mat-error *ngIf="emailInput.invalid">Please enter a valid email</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput name='password' type="password" ngModel placeholder="Password" #passwordInput='ngModel' required>
+      <mat-error *ngIf='passwordInput.invalid'>Please enter a valid password</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color='accent' type='submit'>Login</button>
+  </form>
+</mat-card>

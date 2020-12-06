@@ -3,7 +3,7 @@
 <mat-accordion *ngIf='courselists'>
   <mat-expansion-panel *ngFor="let list of courselists; let i=index">
       <mat-expansion-panel-header *ngIf='i<10'>
-        <p class="glance-info">Name: {{ i }} {{ list?.name }}</p>
+        <p class="glance-info">Name: {{ list?.name }}</p>
         <p class="glance-info">Creator: {{ list?.creator }}</p>
         <p class="glance-info"># of Courses: {{ list?.courses.length }}</p>
         <p class="glance-info">Modified Date: {{ list?.modifiedDate.month }}/{{ list?.modifiedDate.day }}/{{ list?.modifiedDate.year }}</p>

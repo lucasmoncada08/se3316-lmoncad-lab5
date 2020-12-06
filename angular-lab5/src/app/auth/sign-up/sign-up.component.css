@@ -1,0 +1,17 @@
+mat-form-field,
+textarea {
+  width: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+mat-card {
+  margin: 2rem 24%;
+}
+
+#blurb {
+  text-align: center;
+  margin: 0 8rem;
+}
