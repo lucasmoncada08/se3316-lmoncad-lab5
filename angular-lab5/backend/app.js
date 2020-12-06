@@ -113,7 +113,10 @@ app.post('/api/users/login', (req, res, next) => {
       });
     }
 
+    const token = jwt.sign({email: user.email, userId: user.username}, 'secret_hidden-message_should-be_longer',
+    { expiresIn: "1h"} );
 
+    res.send(token);
 
   })
   .catch(err => {
