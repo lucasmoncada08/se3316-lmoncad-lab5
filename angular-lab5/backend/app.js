@@ -11,6 +11,8 @@ const User = require('./models/users');
 
 const app = express();
 
+var salt = bcrypt.genSaltSync();
+
 mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority')
   .then(() => {
     console.log('Connection successful!');
@@ -72,8 +74,6 @@ app.post('/api/courselists/add', (req, res, next) => {
 app.post('/api/users/signup', (req, res, next) => {
   console.log('Creating new user');
 
-  console.log(req.body)
-
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
     const user = new User({
@@ -81,7 +81,9 @@ app.post('/api/users/signup', (req, res, next) => {
       email: req.body.email,
       password: hash,
       admin: req.body.admin
-    })
+    });
+
+    // console.log(hash);
 
     user.save()
     .then(result => {
@@ -94,35 +96,44 @@ app.post('/api/users/signup', (req, res, next) => {
       });
     });
 
-  })
-})
+  });
+});
 
 app.post('/api/users/login', (req, res, next) => {
-  User.findOne({email: req.body.email }).then(user => {
-    if (!user) {
+  let fetchedUser;
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      if (!user) {
+        return res.status(401).json({
+          message: 'Auth failed at !user'
+        });
+      }
+      fetchedUser = user;
+      // res.send('Done');
+      // res.send(bcrypt.compare(req.body.password, user.password));
+      return bcrypt.compare(req.body.password, user.password);
+    })
+    .then(result => {
+      if (!result) {
+        return res.status(401).json({
+          message: 'Auth failed at !result: ' + result
+        });
+      }
+
+      console.log(result);
+
+      const token = jwt.sign({email: fetchedUser.email, userId: fetchedUser.username}, 'secret_this_should_be_longer',
+      { expiresIn: "1h"} );
+
+      console.log(token);
+      res.send(token);
+
+    })
+    .catch(err => {
       return res.status(401).json({
-        message: 'Auth Failed'
+        error: err,
+        message: 'Auth failed at then result'
       });
-    }
-    return bcrypt.compare(req.body.password, user.password)
-  })
-  .then(result => {
-    if (!result) {
-      return res.status(401).json({
-        message: 'Auth Failed'
-      });
-    }
-
-    const token = jwt.sign({email: user.email, userId: user.username}, 'secret_hidden-message_should-be_longer',
-    { expiresIn: "1h"} );
-
-    res.send(token);
-
-  })
-  .catch(err => {
-    return res.status(401).json({
-      message: 'Auth Failed'
-    });
   });
 })
 
