@@ -1,0 +1,30 @@
+
+<br>
+
+<h2>Course Reviews</h2>
+
+<br>
+
+<p class="medInput" >Subject Code: </p>
+<input #subjCode/>
+
+<p class="">Course Code: </p>
+<input #courseCode/>
+
+<p class="">Rating (0.5 - 5): </p>
+<input class="longInput" #rating/>
+
+<br>
+<br>
+
+<p class="">Review: </p>
+<input #reviewText/>
+
+<p class="">Username: </p>
+<input #username/>
+
+<br>
+
+
+<button (click)='onCreateReview(subjCode.value, courseCode.value, rating.value, reviewText.value, username.value)'>
+  Create</button>

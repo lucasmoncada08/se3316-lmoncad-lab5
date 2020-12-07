@@ -82,6 +82,8 @@ export class CourseListsComponent implements OnInit {
 
   }
 
+  onUpdateCourseList()
+
   onDeleteCourseList(clName) {
 
     const options = {

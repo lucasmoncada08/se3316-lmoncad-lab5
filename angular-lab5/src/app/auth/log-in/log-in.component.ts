@@ -36,7 +36,6 @@ export class LogInComponent {
       .subscribe(res => {
         console.log(res);
       })
-
   }
 
 }

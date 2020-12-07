@@ -8,6 +8,8 @@ const cors = require('cors');
 
 const CourseList = require('./models/course-lists');
 const User = require('./models/users');
+const CourseReview = require('./models/course-reviews');
+const courseReviews = require('./models/course-reviews');
 
 const app = express();
 
@@ -37,6 +39,33 @@ app.use((req, res, next) => {
    'GET, POST, PATCH, DELETE, OPTIONS'
   );
   next();
+})
+
+app.post('/api/coursereviews/add', (req, res, next) => {
+  console.log('Posting course review');
+
+  var date = new Date();
+  var d = date.getUTCDate() - 1;
+  var m = date.getUTCMonth() + 1;
+  var yr = date.getUTCFullYear();
+
+  const courseReview = new CourseReview({
+    courseCode: req.body.courseCode,
+    subjCode: req.body.subjCode,
+    rating: req.body.rating,
+    reviewText: req.body.reviewText,
+    username: req.body.username,
+    day: d,
+    month: m,
+    year: yr
+  })
+
+  console.log(req.body.courseCode);
+
+  courseReview.save();
+
+  res.send(courseReview);
+
 })
 
 app.post('/api/courselists/add', (req, res, next) => {

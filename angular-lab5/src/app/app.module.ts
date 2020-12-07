@@ -11,6 +11,7 @@ import { CourseListsComponent } from './course-lists/course-lists.component';
 import { HeaderComponent } from './header/header.component';
 import { LogInComponent } from './auth/log-in/log-in.component'
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { CourseReviewComponent } from './course-review/course-review.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
@@ -32,7 +33,8 @@ import { AppRoutingModule } from './app-routing.module';
     CourseListsComponent,
     HeaderComponent,
     LogInComponent,
-    SignUpComponent
+    SignUpComponent,
+    CourseReviewComponent
   ],
   imports: [
     BrowserModule,
