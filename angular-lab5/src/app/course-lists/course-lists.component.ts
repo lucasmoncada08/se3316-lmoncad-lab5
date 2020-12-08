@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-
 @Component({
   selector: 'course-lists',
   templateUrl: './course-lists.component.html',
@@ -82,7 +81,9 @@ export class CourseListsComponent implements OnInit {
 
   }
 
-  onUpdateCourseList()
+  onUpdateCourseList() {
+
+  }
 
   onDeleteCourseList(clName) {
 
