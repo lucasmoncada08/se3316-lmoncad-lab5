@@ -68,6 +68,13 @@ app.post('/api/coursereviews/add', (req, res, next) => {
 
 })
 
+app.get('/api/coursereviews/view/:subjCode/:courseCode', (req, res, next) => {
+  CourseReview.find({subjCode: req.params.subjCode, courseCode: req.params.courseCode}).then(reviews => {
+    console.log(reviews);
+    res.send(reviews);
+  })
+})
+
 app.post('/api/courselists/add', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   console.log('Posting to course list');

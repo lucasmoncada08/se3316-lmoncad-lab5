@@ -10,6 +10,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class CourseReviewComponent {
 
+  courseReviews;
+
+  onGetReviews(subjCode, courseCode) {
+    this.http.get(`http://localhost:3000/api/coursereviews/view/${subjCode}/${courseCode}`)
+    .subscribe(courseRevs => {
+      this.courseReviews = courseRevs
+    })
+  }
+
   constructor(private http: HttpClient) {};
 
   onCreateReview(subjCode, courseCode, rating, reviewText, username) {

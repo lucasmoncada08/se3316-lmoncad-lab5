@@ -1,7 +1,35 @@
 
 <br>
 
-<h2>Course Reviews</h2>
+<h2>View Course Reviews</h2>
+
+<p class="">Subject Code: </p>
+<input #viewSubjCode/>
+
+<p class="">Course Code: </p>
+<input #viewCourseCode/>
+
+<br>
+
+<button (click)='onGetReviews(viewSubjCode.value, viewCourseCode.value)'>
+  View Review</button>
+
+<mat-accordion *ngIf='courseReviews'>
+  <mat-expansion-panel *ngFor="let rev of courseReviews; let i=index">
+      <mat-expansion-panel-header *ngIf='i<10'>
+        <p class="glance-info">Course: {{ rev?.subjCode }}-{{ rev?.courseCode }}</p>
+        <p class="glance-info">Reviewer: {{ rev?.username }}</p>
+        <p class="glance-info">Rating: {{ rev?.rating }}</p>
+        <p class="glance-info">Created Date: {{ rev?.month }}/{{ rev?.day }}/{{ rev?.year }}</p>
+      </mat-expansion-panel-header>
+    <p class="extra-info" *ngIf='i<10'>Review: {{ rev?.reviewText }}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<br>
+<br>
+
+<h2>Create Course Review</h2>
 
 <br>
 
