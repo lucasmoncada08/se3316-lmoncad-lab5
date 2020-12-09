@@ -90,11 +90,9 @@ app.post('/api/courselists/add', (req, res, next) => {
     name: req.body.name,
     creator: req.body.creator,
     descr: req.body.descr,
-    modifiedDate: {
-      day: day,
-      month: month,
-      year: year
-    },
+    day: day,
+    month: month,
+    year: year,
     courses: req.body.courses,
     privacy: req.body.privacy
   })
@@ -178,6 +176,15 @@ app.get('/api/courselists/public', (req, res, next) => {
   .then(lists => {
     res.send(lists);
   })
+})
+
+app.post('/api/timetable/getcourses', (req, res, next) => {
+  console.log(req.body.name);
+  CourseList.findOne({name: req.body.name})
+  .then(courselist => {
+    // console.log(courselist);
+    res.send(courselist.courses);
+  });
 })
 
 app.get('/api/coursesearch/:courseCode/:subjCode', (req, res, next) => {

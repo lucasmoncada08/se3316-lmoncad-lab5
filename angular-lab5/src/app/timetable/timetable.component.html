@@ -1,0 +1,17 @@
+
+<br>
+<br>
+
+<h1>Timetable</h1>
+
+<p class="">Course List: </p>
+<input class="longInput" #clist/>
+
+<button (click)='onAddToTimetable(clist.value)'>
+  Add</button>
+
+<ejs-schedule #scheduleObj width='100%'  startHour='08:00' endHour='22:00' [selectedDate]='selectedDate'>
+  <e-views>
+    <e-view option='WorkWeek' dateFormat='dd-MMM-yyyy'></e-view>
+  </e-views>
+</ejs-schedule>
