@@ -172,7 +172,7 @@ app.post('/api/users/login', (req, res, next) => {
 })
 
 app.get('/api/courselists/public', (req, res, next) => {
-  CourseList.find({privacy: 'Public'})
+  CourseList.find({privacy: 'Public'}).sort({year: -1, month: -1, day: -1})
   .then(lists => {
     res.send(lists);
   })
