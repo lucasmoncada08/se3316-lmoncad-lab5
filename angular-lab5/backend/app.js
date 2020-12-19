@@ -288,6 +288,18 @@ app.post('/api/admin/grantaccess', (req, res, next) => {
  })
 })
 
+app.post('/api/admin/deactivate', (req, res, next) => {
+  mongoose.set('useFindAndModify', false);
+  var cond = { 'username': req.body.username };
+  User.findOneAndUpdate(cond, { $set: {deactivated: true}}, {upsert: false}, function(err, doc) {
+    if (err)
+      return res.send(500, {error: err});
+    return res.status(200).json({
+      message: 'deactivated account'
+    });
+ })
+})
+
 module.exports = app
 
 var courseData = [
