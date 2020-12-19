@@ -11,16 +11,18 @@ const User = require('./models/users');
 const CourseReview = require('./models/course-reviews');
 const courseReviews = require('./models/course-reviews');
 
+const checkAuth = require('./middleware/check-auth');
+
 const app = express();
 
 var salt = bcrypt.genSaltSync();
 
-mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority&ssl=true', {useNewUrlParser: true})
   .then(() => {
     console.log('Connection successful!');
   })
-  .catch(() => {
-    console.log("Error connecting to database");
+  .catch(err => {
+    console.log("Error connecting to database: ", err);
   })
 
 app.use(bodyParser.json());
@@ -33,7 +35,7 @@ app.use(cors({
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader('Access-Control-Allow-Headers',
    'GET, POST, PATCH, DELETE, OPTIONS'
@@ -160,8 +162,9 @@ app.post('/api/users/login', (req, res, next) => {
       { expiresIn: "1h"} );
 
       console.log(token);
-      res.send(token);
-
+      res.status(200).json({
+        token: token
+      });
     })
     .catch(err => {
       return res.status(401).json({
@@ -263,7 +266,7 @@ app.get('/api/coursekeywordsearch/:courseCode/:courseName', (req, res, next) => 
   res.send(fullyFilteredCourses);
 })
 
-app.delete('/api/courselists/delete', (req, res, next) => {
+app.delete('/api/courselists/delete', checkAuth, (req, res, next) => {
   console.log('Deleting course list: ' + req.body.name);
   CourseList.deleteOne({ name: req.body.name }).then(result => {
     console.log(result);

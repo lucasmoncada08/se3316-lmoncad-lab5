@@ -31,7 +31,7 @@ export class SignUpComponent {
       body: JSON.stringify(authData)
     }
 
-    // console.log(authData);
+    console.log(authData);
 
     this.http.post('http://localhost:3000/api/users/signup',
      JSON.stringify(authData), options)

@@ -25,8 +25,9 @@ import { MatInputModule } from '@angular/material/input';
 import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
 import { WorkWeekService } from '@syncfusion/ej2-angular-schedule';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatInputModule,
     ScheduleModule
   ],
-  providers: [WorkWeekService],
+  providers: [WorkWeekService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
