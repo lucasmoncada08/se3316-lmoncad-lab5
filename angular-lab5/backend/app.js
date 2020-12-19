@@ -277,14 +277,9 @@ app.delete('/api/courselists/delete', checkAuth, (req, res, next) => {
 })
 
 app.post('/api/admin/grantaccess', (req, res, next) => {
-  // User.findOne({username: 'administrator2'})
-  // .then(user => {
-  //   res.admin = true;
-  //   .save()
-  // })
   mongoose.set('useFindAndModify', false);
-  var cond = { 'username': 'administrator2' };
-  User.findOneAndUpdate(cond, { $set: {admin: false}}, {upsert: false}, function(err, doc) {
+  var cond = { 'username': req.body.username };
+  User.findOneAndUpdate(cond, { $set: {admin: true}}, {upsert: false}, function(err, doc) {
     if (err)
       return res.send(500, {error: err});
     return res.status(200).json({
