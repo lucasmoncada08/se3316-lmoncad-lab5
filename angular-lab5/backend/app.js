@@ -59,7 +59,8 @@ app.post('/api/coursereviews/add', (req, res, next) => {
     username: req.body.username,
     day: d,
     month: m,
-    year: yr
+    year: yr,
+    hidden: false
   })
 
   console.log(req.body.courseCode);
@@ -116,7 +117,8 @@ app.post('/api/users/signup', (req, res, next) => {
       username: req.body.username,
       email: req.body.email,
       password: hash,
-      admin: req.body.admin
+      admin: req.body.admin,
+      deactivated: req.body.deactivated
     });
 
     // console.log(hash);

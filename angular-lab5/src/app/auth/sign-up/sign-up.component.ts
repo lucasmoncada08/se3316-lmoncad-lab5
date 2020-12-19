@@ -23,7 +23,8 @@ export class SignUpComponent {
       email: form.value.email,
       username: form.value.username,
       password: form.value.password,
-      admin: false
+      admin: false,
+      deactivated: false
     }
 
     const options = {

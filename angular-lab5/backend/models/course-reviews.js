@@ -8,7 +8,8 @@ const reviewSchema = mongoose.Schema({
   username: String,
   day: Number,
   month: Number,
-  year: Number
+  year: Number,
+  hidden: Boolean
 })
 
 module.exports = mongoose.model('CourseReview', reviewSchema);

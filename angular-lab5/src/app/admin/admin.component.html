@@ -1,0 +1,13 @@
+<h2>Grant a User Admin Access</h2>
+<p class="">User's Username: </p>
+<input #adUsername/>
+<button id='grantAccessBtn' (click)='onGrantAccess(adUsername.value)'>Grant</button>
+
+<br>
+<br>
+<br>
+
+<h2>Deactivate a User's Account</h2>
+<p class="">User's Username: </p>
+<input #adDeactUsername/>
+<button id='deactBtn' (click)='onDeactivate(adDeactUsername.value)'>Deactivate</button>

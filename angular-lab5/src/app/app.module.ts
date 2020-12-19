@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
 import { CourseSearchComponent } from './course-search/course-search.component';
 import { KeywordSearchComponent } from './keyword-search/keyword-search.component';
 import { CourseListsComponent } from './course-lists/course-lists.component';
@@ -32,7 +31,6 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     CourseSearchComponent,
     KeywordSearchComponent,
     CourseListsComponent,
