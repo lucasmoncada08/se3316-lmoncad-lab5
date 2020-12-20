@@ -8,6 +8,7 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { TimetableComponent } from './timetable/timetable.component';
 import { CourseReviewComponent } from './course-review/course-review.component';
 import { AdminComponent } from './admin/admin.component';
+import { UpdatePassComponent } from './auth/update-pass/update-pass.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,10 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent
+  },
+  {
+    path: 'account',
+    component: UpdatePassComponent
   }
 ]
 

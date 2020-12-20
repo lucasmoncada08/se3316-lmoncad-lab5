@@ -9,7 +9,6 @@ const cors = require('cors');
 const CourseList = require('./models/course-lists');
 const User = require('./models/users');
 const CourseReview = require('./models/course-reviews');
-const courseReviews = require('./models/course-reviews');
 
 const checkAuth = require('./middleware/check-auth');
 
@@ -181,18 +180,22 @@ app.post('/api/users/updatepassword', (req, res, next) => {
 
   var newPass;
   var cond = { 'username': req.body.username };
-  bcrypt.hash(req.body.password, 10)
+  bcrypt.hash(req.body.newPass, 10)
     .then(hash => {
       newPass = hash
-      console.log(newPass)
-      User.findOneAndUpdate(cond, { $set: {password: newPass}}, {upsert: false}, function(err, doc) {
+      User.findOneAndUpdate(cond, { $set: {password: newPass} }, {upsert: false}, function(err, doc) {
         if (err)
           return res.send(500, {error: err});
         return res.status(200).json({
           message: 'updated password'
         });
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "in catch err"
+      });
     });
- })
 })
 
 app.get('/api/courselists/public', (req, res, next) => {

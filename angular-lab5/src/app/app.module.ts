@@ -12,6 +12,8 @@ import { LogInComponent } from './auth/log-in/log-in.component'
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { CourseReviewComponent } from './course-review/course-review.component';
 import { TimetableComponent } from './timetable/timetable.component';
+import { UpdatePassComponent } from './auth/update-pass/update-pass.component';
+import { AdminComponent } from './admin/admin.component';
 
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
@@ -38,7 +40,9 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     LogInComponent,
     SignUpComponent,
     CourseReviewComponent,
-    TimetableComponent
+    TimetableComponent,
+    AdminComponent,
+    UpdatePassComponent
   ],
   imports: [
     BrowserModule,
