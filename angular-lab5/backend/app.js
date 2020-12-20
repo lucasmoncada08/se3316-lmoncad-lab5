@@ -158,12 +158,12 @@ app.post('/api/users/login', (req, res, next) => {
         });
       }
 
-      console.log(result);
+      // console.log(result);
 
       const token = jwt.sign({email: fetchedUser.email, userId: fetchedUser.username}, 'secret_this_should_be_longer',
       { expiresIn: "1h"} );
 
-      console.log(token);
+      // console.log(token);
       res.status(200).json({
         token: token
       });

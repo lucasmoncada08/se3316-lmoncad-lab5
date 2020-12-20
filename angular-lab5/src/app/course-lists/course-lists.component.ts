@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'course-lists',
@@ -7,17 +10,32 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./course-lists.component.css']
 })
 
-export class CourseListsComponent implements OnInit {
+export class CourseListsComponent implements OnInit, OnDestroy {
+
+  userIsAuthenticated = false;
+  private authListenerSubs: Subscription;
+  private reqListenerSubs: Subscription;
 
   courselists;
   newCourseList;
 
   // readonly url = 'http://localhost:3000'
 
-  constructor(private http: HttpClient) {};
+  constructor(private http: HttpClient, public authService: AuthService) {};
 
   ngOnInit() {
     this.onRun();
+
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    // this.authListenerSubs = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
+    //   this.userIsAuthenticated = isAuthenticated;
+    //   // console.log('User authenticated: ', this.userIsAuthenticated);
+    // });
+  }
+
+  ngOnDestroy() {
+    this.authListenerSubs.unsubscribe();
+    this.reqListenerSubs.unsubscribe();
   }
 
   onRun() {
@@ -26,6 +44,7 @@ export class CourseListsComponent implements OnInit {
       this.courselists = courselists
       console.log(this.courselists);
     })
+    // console.log('User authenticated: ', this.userIsAuthenticated);
   }
 
   addCourseList(name, creator, descr, priv, courseId1, subjCode1, courseId2,

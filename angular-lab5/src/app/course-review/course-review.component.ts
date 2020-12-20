@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'course-review',
@@ -10,12 +12,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // /Users/lucasmoncada/Desktop/SE-3316/se3316-lmoncad-lab5/angular-lab5/src/app/timetable/timetable.component.ts
 
-export class CourseReviewComponent {
+export class CourseReviewComponent implements OnInit, OnDestroy {
+
+  userIsAuthenticated = false;
+  private authListenerSubs: Subscription;
 
   courseReviews;
 
-  constructor(private http: HttpClient) {};
+  constructor(private http: HttpClient, public authService: AuthService) {};
 
+  ngOnInit() {
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    // this.authListenerSubs = this.authService.getAuthStatusListener().subscribe(isAuth => {
+    //   this.userIsAuthenticated = isAuth;
+    // })
+  }
+
+  ngOnDestroy() {
+    // this.authListenerSubs.unsubscribe();
+  }
 
   onGetReviews(subjCode, courseCode) {
     this.http.get(`http://localhost:3000/api/coursereviews/view/${subjCode}/${courseCode}`)
@@ -32,7 +47,7 @@ export class CourseReviewComponent {
       "rating": rating,
       "reviewText": reviewText,
       "username": username
-  }
+    }
 
     const options = {
       headers: {'Content-Type': 'application/json'},

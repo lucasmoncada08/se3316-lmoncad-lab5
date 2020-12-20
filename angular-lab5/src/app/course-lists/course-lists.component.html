@@ -19,7 +19,7 @@
 <br>
 <br>
 
-<div>
+<span *ngIf='userIsAuthenticated'>
   <h2>Creating a Course List</h2>
 
   <br>
@@ -35,7 +35,7 @@
 
   <br>
   <p class="">Private: </p>
-  <input type="checkbox" #clPrivacy/>
+  <input type="checkbox" value='checked' #clPrivacy/>
 
   <br>
   <br>
@@ -70,19 +70,20 @@
   <input #c5CC value='Course Code'/>
   <input #c5SC value='Subject Code'/>
 
-</div>
-
-<button (click)='addCourseList(clName.value, clCreator.value, clDescr.value,
-clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
-c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)'>Create</button>
+  <button (click)='addCourseList(clName.value, clCreator.value, clDescr.value,
+  clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
+  c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)'>Create</button>
+</span>
 
 <br>
 <br>
 
-<h2>Delete a Course List</h2>
-<p class="">Course List Name: </p>
-<input #clDeleteName/>
-<button id='deleteButton' (click)='onDeleteCourseList(clDeleteName.value)'>Delete</button>
+<span *ngIf='userIsAuthenticated'>
+  <h2>Delete a Course List</h2>
+  <p class="">Course List Name: </p>
+  <input #clDeleteName/>
+  <button id='deleteButton' (click)='onDeleteCourseList(clDeleteName.value)'>Delete</button>
+</span>
 
 <br>
 <br>
