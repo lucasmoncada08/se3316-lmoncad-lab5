@@ -176,6 +176,25 @@ app.post('/api/users/login', (req, res, next) => {
   });
 })
 
+app.post('/api/users/updatepassword', (req, res, next) => {
+  mongoose.set('useFindAndModify', false);
+
+  var newPass;
+  var cond = { 'username': req.body.username };
+  bcrypt.hash(req.body.password, 10)
+    .then(hash => {
+      newPass = hash
+      console.log(newPass)
+      User.findOneAndUpdate(cond, { $set: {password: newPass}}, {upsert: false}, function(err, doc) {
+        if (err)
+          return res.send(500, {error: err});
+        return res.status(200).json({
+          message: 'updated password'
+        });
+    });
+ })
+})
+
 app.get('/api/courselists/public', (req, res, next) => {
   CourseList.find({privacy: 'Public'}).sort({year: -1, month: -1, day: -1})
   .then(lists => {
@@ -187,7 +206,6 @@ app.post('/api/timetable/getcourses', (req, res, next) => {
   console.log(req.body.name);
   CourseList.findOne({name: req.body.name})
   .then(courselist => {
-    // console.log(courselist);
     res.send(courselist.courses);
   });
 })
