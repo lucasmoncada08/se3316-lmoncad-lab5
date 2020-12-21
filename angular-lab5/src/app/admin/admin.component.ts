@@ -36,4 +36,16 @@ export class AdminComponent {
     });
   }
 
+  onReactivate(adReactUsername) {
+    const options = {
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username: adReactUsername})
+    }
+
+    this.http.post('http://localhost:3000/api/admin/reactivate', JSON.stringify({username: adReactUsername}), options)
+    .subscribe(res => {
+      console.log('Reactivated user');
+    });
+  }
+
 }

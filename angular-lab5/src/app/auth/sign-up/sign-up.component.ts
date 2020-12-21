@@ -34,7 +34,6 @@ export class SignUpComponent {
 
     this.http.post('http://localhost:3000/api/users/signup', JSON.stringify(authData), options)
       .subscribe(res => {
-        console.log('res is ' + res);
         if (res)
           alert('Email or Username is already taken');
       })

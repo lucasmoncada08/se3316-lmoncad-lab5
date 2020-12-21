@@ -340,6 +340,18 @@ app.post('/api/admin/deactivate', (req, res, next) => {
  })
 })
 
+app.post('/api/admin/reactivate', (req, res, next) => {
+  mongoose.set('useFindAndModify', false);
+  var cond = { 'username': req.body.username };
+  User.findOneAndUpdate(cond, { $set: {deactivated: false}}, {upsert: false}, function(err, doc) {
+    if (err)
+      return res.send(500, {error: err});
+    return res.status(200).json({
+      message: 'reactivated account'
+    });
+ })
+})
+
 module.exports = app
 
 var courseData = [
