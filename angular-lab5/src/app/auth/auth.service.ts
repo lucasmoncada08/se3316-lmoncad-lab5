@@ -23,7 +23,7 @@ export class AuthService {
     return this.authStatusListener.asObservable();
   }
 
-  loginUser(authData) {
+  async loginUser(authData) {
     const options = {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(authData)
@@ -36,8 +36,12 @@ export class AuthService {
       .subscribe(res => {
         this.token = res.token;
         if (res.token) {
-          this.isAuthenticated = true;
-          this.authStatusListener.next(true);
+          if (res.token == 'Deactivated')
+            alert('Account is deactivated, please contact timetableadmin@uwo.ca');
+          else {
+            this.isAuthenticated = true;
+            this.authStatusListener.next(true);
+          }
         }
       })
   }

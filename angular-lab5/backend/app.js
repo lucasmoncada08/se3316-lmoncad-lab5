@@ -145,6 +145,11 @@ app.post('/api/users/login', (req, res, next) => {
           message: 'Auth failed at !user'
         });
       }
+
+      if (user.deactivated) {
+        return 'Deactivate'
+      }
+
       fetchedUser = user;
       // res.send('Done');
       // res.send(bcrypt.compare(req.body.password, user.password));
@@ -157,8 +162,18 @@ app.post('/api/users/login', (req, res, next) => {
         });
       }
 
+      console.log('result = ', result);
+
+      if (result == 'Deactivate') {
+        console.log('Deactivated Account');
+        res.status(200).json({
+          token: 'Deactivated'
+        });
+      }
+
       // console.log(result);
 
+      else {
       const token = jwt.sign({email: fetchedUser.email, userId: fetchedUser.username}, 'secret_this_should_be_longer',
       { expiresIn: "1h"} );
 
@@ -166,6 +181,7 @@ app.post('/api/users/login', (req, res, next) => {
       res.status(200).json({
         token: token
       });
+      }
     })
     .catch(err => {
       return res.status(401).json({
@@ -186,9 +202,7 @@ app.post('/api/users/updatepassword', (req, res, next) => {
       User.findOneAndUpdate(cond, { $set: {password: newPass} }, {upsert: false}, function(err, doc) {
         if (err)
           return res.send(500, {error: err});
-        return res.status(200).json({
-          message: 'updated password'
-        });
+        return res.status(200).json({ message: 'updated password' });
       });
     })
     .catch(err => {

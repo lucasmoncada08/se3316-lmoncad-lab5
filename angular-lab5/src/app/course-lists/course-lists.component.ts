@@ -13,8 +13,8 @@ import { AuthService } from '../auth/auth.service';
 export class CourseListsComponent implements OnInit, OnDestroy {
 
   userIsAuthenticated = false;
-  private authListenerSubs: Subscription;
-  private reqListenerSubs: Subscription;
+  // private authListenerSubs: Subscription;
+  // private reqListenerSubs: Subscription;
 
   courselists;
   newCourseList;
@@ -34,8 +34,8 @@ export class CourseListsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.authListenerSubs.unsubscribe();
-    this.reqListenerSubs.unsubscribe();
+    // this.authListenerSubs.unsubscribe();
+    // this.reqListenerSubs.unsubscribe();
   }
 
   onRun() {
@@ -106,6 +106,8 @@ export class CourseListsComponent implements OnInit, OnDestroy {
 
   onDeleteCourseList(clName) {
 
+    if (confirm('Are you sure you would like to delete the course list: ' + clName)) {
+
     const options = {
       headers: new HttpHeaders({'Content-Type': 'application/json'}),
       body: {"name": clName}
@@ -114,8 +116,9 @@ export class CourseListsComponent implements OnInit, OnDestroy {
     this.http.delete(`http://localhost:3000/api/courselists/delete`, options).subscribe(res => {
       console.log(res)
     })
-  }
 
+    }
+  }
 }
 
 // {
