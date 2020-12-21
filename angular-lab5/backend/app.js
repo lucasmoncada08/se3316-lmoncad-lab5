@@ -110,30 +110,41 @@ app.post('/api/courselists/add', (req, res, next) => {
 app.post('/api/users/signup', (req, res, next) => {
   console.log('Creating new user');
 
-  bcrypt.hash(req.body.password, 10)
-    .then(hash => {
-    const user = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: hash,
-      admin: req.body.admin,
-      deactivated: req.body.deactivated
-    });
+  var copy = false
 
-    // console.log(hash);
-
-    user.save()
-    .then(result => {
-      res.send('User created');
-    })
-    .catch(err => {
-      res.status(500).json({
-        message: 'In custom error',
-        error: err
+  User.findOne({$or: [
+    {email: req.body.email},
+    {username: req.body.username}
+  ]}).then(result => {
+    if (!result) {
+      bcrypt.hash(req.body.password, 10)
+        .then(hash => {
+        const user = new User({
+          username: req.body.username,
+          email: req.body.email,
+          password: hash,
+          admin: req.body.admin,
+          deactivated: req.body.deactivated
+        })
+        user.save()
+        .then(result => {
+          res.send(copy);
+        })
+        .catch(err => {
+          res.send('Email or username error');
+        });
       });
-    });
+    }
+    else {
+      copy = true;
+      res.send(copy);
+    }
+  })
+  .catch(err => {
+    res.send('Error in findOne')
+  })
 
-  });
+
 });
 
 app.post('/api/users/login', (req, res, next) => {
@@ -141,7 +152,7 @@ app.post('/api/users/login', (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
       if (!user) {
-        return res.status(401).json({
+        return res.status(200).json({
           message: 'Auth failed at !user'
         });
       }
@@ -151,14 +162,12 @@ app.post('/api/users/login', (req, res, next) => {
       }
 
       fetchedUser = user;
-      // res.send('Done');
-      // res.send(bcrypt.compare(req.body.password, user.password));
       return bcrypt.compare(req.body.password, user.password);
     })
     .then(result => {
       if (!result) {
-        return res.status(401).json({
-          message: 'Auth failed at !result: ' + result
+        return res.status(200).json({
+          message: 'Auth failed at !result'
         });
       }
 
@@ -170,17 +179,13 @@ app.post('/api/users/login', (req, res, next) => {
           token: 'Deactivated'
         });
       }
-
-      // console.log(result);
-
       else {
-      const token = jwt.sign({email: fetchedUser.email, userId: fetchedUser.username}, 'secret_this_should_be_longer',
-      { expiresIn: "1h"} );
+        const token = jwt.sign({email: fetchedUser.email, userId: fetchedUser.username}, 'secret_this_should_be_longer',
+        { expiresIn: "1h"} );
 
-      // console.log(token);
-      res.status(200).json({
-        token: token
-      });
+        res.status(200).json({
+          token: token
+        });
       }
     })
     .catch(err => {

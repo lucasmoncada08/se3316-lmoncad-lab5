@@ -35,7 +35,7 @@ export class AuthService {
      JSON.stringify(authData), options)
       .subscribe(res => {
         this.token = res.token;
-        if (res.token) {
+        if (res.token && res.token != '[object Object]') {
           if (res.token == 'Deactivated')
             alert('Account is deactivated, please contact timetableadmin@uwo.ca');
           else {
@@ -43,6 +43,8 @@ export class AuthService {
             this.authStatusListener.next(true);
           }
         }
+        else
+          alert('Login Credentials were incorrect please try again');
       })
   }
 

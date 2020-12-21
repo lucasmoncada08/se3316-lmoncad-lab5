@@ -21,7 +21,7 @@ export class LogInComponent {
   isLoading = false;
 
   onLogin(form: NgForm) {
-    console.log(form.value);
+    // console.log(form.value);
     if (form.invalid)
       return;
 
