@@ -47,7 +47,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
     // console.log('User authenticated: ', this.userIsAuthenticated);
   }
 
-  addCourseList(name, creator, descr, priv, courseId1, subjCode1, courseId2,
+  addCourseList(name, descr, priv, courseId1, subjCode1, courseId2,
       subjCode2, courseId3, subjCode3, courseId4, subjCode4, courseId5, subjCode5) {
 
     var privacy = '';
@@ -61,7 +61,6 @@ export class CourseListsComponent implements OnInit, OnDestroy {
 
     this.newCourseList = {
       "name": name,
-      "creator": creator,
       "descr": descr,
       "privacy": privacy,
       "courses": [

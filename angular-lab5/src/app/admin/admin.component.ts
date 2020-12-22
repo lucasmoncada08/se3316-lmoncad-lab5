@@ -48,4 +48,43 @@ export class AdminComponent {
     });
   }
 
+  onHideReview(username, subjCode, courseCode) {
+
+    const data = {
+      username: username,
+      subjCode: subjCode,
+      courseCode: courseCode
+    }
+
+    const options = {
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    }
+
+    this.http.post('http://localhost:3000/api/admin/hidereview', JSON.stringify(data), options)
+    .subscribe(res => {
+      console.log('Hide review');
+    });
+  }
+
+  onShowReview(username, subjCode, courseCode) {
+
+    const data = {
+      username: username,
+      subjCode: subjCode,
+      courseCode: courseCode
+    }
+
+    const options = {
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    }
+
+    this.http.post('http://localhost:3000/api/admin/showreview', JSON.stringify(data), options)
+    .subscribe(res => {
+      console.log('Shown review');
+    });
+
+  }
+
 }

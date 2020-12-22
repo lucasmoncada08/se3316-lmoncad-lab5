@@ -39,23 +39,24 @@ export class CourseReviewComponent implements OnInit, OnDestroy {
     })
   }
 
-  onCreateReview(subjCode, courseCode, rating, reviewText, username) {
+  onCreateReview(subjCode, courseCode, rating, reviewText) {
 
-    const data = {
-      "courseCode": courseCode,
-      "subjCode": subjCode,
-      "rating": rating,
-      "reviewText": reviewText,
-      "username": username
+    if (confirm('Are you sure you would like to delete this review')) {
+      const data = {
+        "courseCode": courseCode,
+        "subjCode": subjCode,
+        "rating": rating,
+        "reviewText": reviewText
+      }
+
+      const options = {
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      }
+
+      this.http.post('http://localhost:3000/api/coursereviews/add', JSON.stringify(data),
+      options).subscribe(res => console.log(res));
     }
-
-    const options = {
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
-    }
-
-    this.http.post('http://localhost:3000/api/coursereviews/add', JSON.stringify(data),
-    options).subscribe(res => console.log(res));
   }
 
 }

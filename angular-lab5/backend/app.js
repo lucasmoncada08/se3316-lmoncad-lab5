@@ -42,7 +42,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.post('/api/coursereviews/add', (req, res, next) => {
+app.post('/api/coursereviews/add', checkAuth, (req, res, next) => {
   console.log('Posting course review');
 
   var date = new Date();
@@ -55,7 +55,7 @@ app.post('/api/coursereviews/add', (req, res, next) => {
     subjCode: req.body.subjCode,
     rating: req.body.rating,
     reviewText: req.body.reviewText,
-    username: req.body.username,
+    username: req.userData.userId,
     day: d,
     month: m,
     year: yr,
@@ -71,13 +71,13 @@ app.post('/api/coursereviews/add', (req, res, next) => {
 })
 
 app.get('/api/coursereviews/view/:subjCode/:courseCode', (req, res, next) => {
-  CourseReview.find({subjCode: req.params.subjCode, courseCode: req.params.courseCode}).then(reviews => {
+  CourseReview.find({subjCode: req.params.subjCode, courseCode: req.params.courseCode, hidden: false}).then(reviews => {
     console.log(reviews);
     res.send(reviews);
   })
 })
 
-app.post('/api/courselists/add', (req, res, next) => {
+app.post('/api/courselists/add', checkAuth, (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   console.log('Posting to course list');
 
@@ -90,7 +90,7 @@ app.post('/api/courselists/add', (req, res, next) => {
 
   const courseList = new CourseList({
     name: req.body.name,
-    creator: req.body.creator,
+    creator: req.userData.userId,
     descr: req.body.descr,
     day: day,
     month: month,
@@ -351,6 +351,30 @@ app.post('/api/admin/reactivate', (req, res, next) => {
       message: 'reactivated account'
     });
  })
+})
+
+app.post('/api/admin/hidereview', (req, res, next) => {
+  mongoose.set('useFindAndModify', false);
+  var cond = { 'username': req.body.username, 'subjCode': req.body.subjCode, 'courseCode': req.body.courseCode };
+  CourseReview.findOneAndUpdate(cond, { $set: {hidden: true}}, {upsert: false}, function (err, doc) {
+    if (err)
+      return res.send(500, {error: err});
+    return res.status(200).json({
+      message: 'review is hidden'
+    });
+  })
+})
+
+app.post('/api/admin/showreview', (req, res, next) => {
+  mongoose.set('useFindAndModify', false);
+  var cond = { 'username': req.body.username, 'subjCode': req.body.subjCode, 'courseCode': req.body.courseCode };
+  CourseReview.findOneAndUpdate(cond, { $set: {hidden: false}}, {upsert: false}, function (err, doc) {
+    if (err)
+      return res.send(500, {error: err});
+    return res.status(200).json({
+      message: 'review is shown'
+    });
+  })
 })
 
 module.exports = app

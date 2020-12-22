@@ -48,9 +48,6 @@
   <p class="medInput" width="50">Course List Name: </p>
   <input #clName/>
 
-  <p class="">Creator: </p>
-  <input #clCreator/>
-
   <p class="">Description: </p>
   <input class="longInput" #clDescr/>
 
@@ -91,7 +88,7 @@
   <input #c5CC value='Course Code'/>
   <input #c5SC value='Subject Code'/>
 
-  <button (click)='addCourseList(clName.value, clCreator.value, clDescr.value,
+  <button (click)='addCourseList(clName.value, clDescr.value,
   clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
   c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)'>Create</button>
 </span>

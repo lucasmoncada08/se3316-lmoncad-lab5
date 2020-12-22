@@ -5,7 +5,7 @@ const reviewSchema = mongoose.Schema({
   subjCode: String,
   rating: Number,
   reviewText: String,
-  username: String,
+  username: {type: String, ref: 'User'},
   day: Number,
   month: Number,
   year: Number,
