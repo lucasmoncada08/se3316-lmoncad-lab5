@@ -19,6 +19,27 @@
 <br>
 <br>
 
+<h3>My Course Lists: </h3>
+
+<!-- <mat-accordion *ngIf='mycourselists'>
+  <mat-expansion-panel *ngFor="let list of mycourselists; let i=index">
+    <mat-expansion-panel-header>
+      <p class="glance-info">Name: {{ list?.name }}</p>
+      <p class="glance-info">Creator: {{ list?.creator }}</p>
+      <p class="glance-info"># of Courses: {{ list?.courses.length }}</p>
+      <p class="glance-info">Modified Date: {{ list?.month }}/{{ list?.day }}/{{ list?.year }}</p>
+    </mat-expansion-panel-header>
+    <p class="extra-info">Description: {{ list?.descr }}</p>
+    <p id="courseListTitle" class="extra-info">Courses: </p>
+    <ul>
+      <li class="extra-info" *ngFor='let course of list?.courses'>{{ course.subjCode }} - {{ course.courseId }}</li>
+    </ul>
+  </mat-expansion-panel>
+</mat-accordion> -->
+
+<br>
+<br>
+
 <span *ngIf='userIsAuthenticated'>
   <h2>Creating a Course List</h2>
 
