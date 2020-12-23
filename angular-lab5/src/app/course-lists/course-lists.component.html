@@ -5,13 +5,15 @@
       <mat-expansion-panel-header *ngIf='i<10'>
         <p class="glance-info">Name: {{ list?.name }}</p>
         <p class="glance-info">Creator: {{ list?.creator }}</p>
-        <p class="glance-info"># of Courses: {{ list?.courses.length }}</p>
+        <p class="glance-info"># of Courses: {{ list?.numOfCourses }}</p>
         <p class="glance-info">Modified Date: {{ list?.month }}/{{ list?.day }}/{{ list?.year }}</p>
       </mat-expansion-panel-header>
     <p class="extra-info" *ngIf='i<10'>Description: {{ list?.descr }}</p>
     <p id="courseListTitle" class="extra-info" *ngIf='i<10'>Courses: </p>
-    <ul *ngIf='i<10'>
-      <li class="extra-info" *ngFor='let course of list?.courses'>{{ course.subjCode }} - {{ course.courseId }}</li>
+    <ul>
+      <li class="extra-info" *ngFor='let course of list?.courses'>
+        <span *ngIf='i<10 && course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>{{ course.subjCode }} - {{ course.courseId }}</span>
+      </li>
     </ul>
   </mat-expansion-panel>
 </mat-accordion>
@@ -26,13 +28,14 @@
     <mat-expansion-panel-header>
       <p class="glance-info">Name: {{ list?.name }}</p>
       <p class="glance-info">Privacy: {{ list?.privacy }}</p>
-      <p class="glance-info"># of Courses: {{ list?.courses.length }}</p>
+      <p class="glance-info"># of Courses: {{ list?.numOfCourses }}</p>
       <p class="glance-info">Modified Date: {{ list?.month }}/{{ list?.day }}/{{ list?.year }}</p>
     </mat-expansion-panel-header>
     <p class="extra-info">Description: {{ list?.descr }}</p>
     <p id="courseListTitle" class="extra-info">Courses: </p>
     <ul>
-      <li class="extra-info" *ngFor='let course of list?.courses'>{{ course.subjCode }} - {{ course.courseId }}</li>
+      <li class="extra-info" *ngFor='let course of list?.courses'>
+        <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>{{ course.subjCode }} - {{ course.courseId }}</span></li>
     </ul>
   </mat-expansion-panel>
 </mat-accordion>
@@ -92,6 +95,62 @@
   clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
   c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)'>Create</button>
 </span>
+
+<br>
+<br>
+
+<form (submit)='onEditCourseList(clUName.value, clUDescr.value,
+clUPrivacy.checked, c1UCC.value, c1USC.value, c2UCC.value, c2USC.value,
+c3UCC.value, c3USC.value, c4UCC.value, c4USC.value, c5UCC.value, c5USC.value)' *ngIf='userIsAuthenticated'>
+  <h2>Editing a Course List</h2>
+
+  <br>
+
+  <p class="medInput" width="50">Course List Name: </p>
+  <input #clUName required/>
+
+  <p class="">Description: </p>
+  <input class="longInput" #clUDescr/>
+
+  <br>
+  <p class="">Private: </p>
+  <input type="checkbox" value='checked' #clUPrivacy/>
+
+  <br>
+  <br>
+
+  <h4>Courses</h4>
+
+  <p class="">Course 1: </p>
+  <input #c1UCC value='Course Code' required/>
+  <input #c1USC value='Subject Code' required/>
+
+  <br>
+
+  <p class="">Course 2: </p>
+  <input #c2UCC value='Course Code' required/>
+  <input #c2USC value='Subject Code' required/>
+
+  <br>
+
+  <p class="">Course 3: </p>
+  <input #c3UCC value='Course Code' required/>
+  <input #c3USC value='Subject Code' required/>
+
+  <br>
+
+  <p class="">Course 4: </p>
+  <input #c4UCC value='Course Code' required/>
+  <input #c4USC value='Subject Code' required/>
+
+  <br>
+
+  <p class="">Course 5: </p>
+  <input #c5UCC value='Course Code' required/>
+  <input #c5USC value='Subject Code' required/>
+
+  <button type='submit'>Edit</button>
+</form>
 
 <br>
 <br>

@@ -82,7 +82,7 @@ app.post('/api/courselists/add', checkAuth, (req, res, next) => {
   console.log('Posting to course list');
 
   var date = new Date();
-  var day = date.getUTCDate() - 1;
+  var day = date.getUTCDate();
   var month = date.getUTCMonth() + 1;
   var year = date.getUTCFullYear();
 
@@ -96,7 +96,8 @@ app.post('/api/courselists/add', checkAuth, (req, res, next) => {
     month: month,
     year: year,
     courses: req.body.courses,
-    privacy: req.body.privacy
+    privacy: req.body.privacy,
+    numOfCourses: req.body.numOfCourses
   })
 
   console.log(req.body);
@@ -107,7 +108,37 @@ app.post('/api/courselists/add', checkAuth, (req, res, next) => {
 
 })
 
-// app.post('/api/courselists/edit')
+app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
+  console.log('Editing a course list');
+
+  var date = new Date();
+  var day = date.getUTCDate();
+  var month = date.getUTCMonth() + 1;
+  var year = date.getUTCFullYear();
+
+  mongoose.set('useFindAndModify', false);
+
+  var cond = {
+    'creator': req.userData.userId, 'name': req.body.name
+  };
+
+  var settings = {
+    descr: req.body.descr,
+    day: day, month: month, year: year,
+    courses: req.body.courses, privacy: req.body.privacy,
+    numOfCourses: req.body.numOfCourses
+  }
+
+  CourseList.findOneAndUpdate(cond, { $set: settings }, {upsert: false}, function(err, doc) {
+    if (err) {
+      return res.status(500).json({error: err, message: 'err in findOneAndUpdate'});
+    }
+    else {
+      return res.status(200).json({ message: 'updated course list' });
+    }
+  });
+
+})
 
 app.post('/api/users/signup', (req, res, next) => {
   console.log('Creating new user');
@@ -200,11 +231,11 @@ app.post('/api/users/login', (req, res, next) => {
   });
 })
 
-app.post('/api/users/updatepassword', (req, res, next) => {
+app.post('/api/users/updatepassword', checkAuth, (req, res, next) => {
   mongoose.set('useFindAndModify', false);
 
   var newPass;
-  var cond = { 'username': req.body.username };
+  var cond = { 'username': req.userData.userId };
   bcrypt.hash(req.body.newPass, 10)
     .then(hash => {
       newPass = hash

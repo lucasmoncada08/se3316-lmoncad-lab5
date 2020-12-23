@@ -13,6 +13,7 @@ const courseListsSchema = mongoose.Schema({
   month: Number,
   year: Number,
   courses: [courseSchema],
+  numOfCourses: Number,
   privacy: String
 })
 

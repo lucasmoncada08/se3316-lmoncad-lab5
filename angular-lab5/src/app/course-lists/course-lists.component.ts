@@ -28,15 +28,11 @@ export class CourseListsComponent implements OnInit, OnDestroy {
     this.onRun();
 
     this.userIsAuthenticated = this.authService.getIsAuth();
-    // this.authListenerSubs = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
-    //   this.userIsAuthenticated = isAuthenticated;
-    //   // console.log('User authenticated: ', this.userIsAuthenticated);
-    // });
+
   }
 
   ngOnDestroy() {
-    // this.authListenerSubs.unsubscribe();
-    // this.reqListenerSubs.unsubscribe();
+
   }
 
   onRun() {
@@ -57,18 +53,26 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       subjCode2, courseId3, subjCode3, courseId4, subjCode4, courseId5, subjCode5) {
 
     var privacy = '';
+    var numOfCourses = 0;
 
     if (priv)
       privacy = 'Private';
     else
       privacy = 'Public'
 
-    console.log(privacy)
+    var courseCodes = [courseId1, courseId2, courseId3, courseId4, courseId5];
+    var subjCodes = [subjCode1, subjCode2, subjCode3, subjCode4, subjCode5];
+
+    for (var i=0; i<5; i++) {
+      if (courseCodes[i]!='' && courseCodes[i]!='Course Code' && subjCodes[i]!='' && subjCodes[i]!='Subject Code')
+        numOfCourses++;
+    }
 
     this.newCourseList = {
       "name": name,
       "descr": descr,
       "privacy": privacy,
+      "numOfCourses": numOfCourses,
       "courses": [
         {
           "courseId": courseId1,
@@ -105,8 +109,62 @@ export class CourseListsComponent implements OnInit, OnDestroy {
 
   }
 
-  onUpdateCourseList() {
+  onEditCourseList(name, descr, priv, courseId1, subjCode1, courseId2,
+    subjCode2, courseId3, subjCode3, courseId4, subjCode4, courseId5, subjCode5) {
+    var privacy = '';
+    var numOfCourses = 0;
 
+    if (priv)
+      privacy = 'Private';
+    else
+      privacy = 'Public'
+
+    var courseCodes = [courseId1, courseId2, courseId3, courseId4, courseId5];
+    var subjCodes = [subjCode1, subjCode2, subjCode3, subjCode4, subjCode5];
+
+    for (var i=0; i<5; i++) {
+      if (courseCodes[i]!='' && courseCodes[i]!='Course Code' && subjCodes[i]!='' && subjCodes[i]!='Subject Code')
+        numOfCourses++;
+    }
+
+    this.newCourseList = {
+      "name": name,
+      "descr": descr,
+      "privacy": privacy,
+      "numOfCourses": numOfCourses,
+      "courses": [
+        {
+          "courseId": courseId1,
+          "subjCode": subjCode1
+        },
+        {
+          "courseId": courseId2,
+          "subjCode": subjCode2
+        },
+        {
+          "courseId": courseId3,
+          "subjCode": subjCode3
+        },
+        {
+          "courseId": courseId4,
+          "subjCode": subjCode4
+        },
+        {
+          "courseId": courseId5,
+          "subjCode": subjCode5
+        }
+      ]
+    }
+
+    const data = {
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(this.newCourseList)
+    }
+
+    this.http.post('http://localhost:3000/api/courselists/edit',
+    JSON.stringify(this.newCourseList), data).subscribe(cList => {
+      console.log(cList)
+    })
   }
 
   onDeleteCourseList(clName) {
