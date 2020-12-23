@@ -83,28 +83,29 @@ export class TimetableComponent {
 
       for (var x=0; x<5; x++) {
         this.http.get(`http://localhost:3000/api/coursesearch/${r[x].courseId}/${r[x].subjCode}`).subscribe(res => {
-        // console.log(res);
-        // console.log(res[0].course_info[0].days)
+          console.log(res);
+          if (res) {
 
-        var sTimeHr = timeToHourDict[res[0].course_info[0].start_time];
-        var sTimeMin = timeToMinDict[res[0].course_info[0].start_time];
-        var eTimeHr = timeToHourDict[res[0].course_info[0].end_time];
-        var eTimeMin = timeToMinDict[res[0].course_info[0].end_time];
+            var sTimeHr = timeToHourDict[res[0].course_info[0].start_time];
+            var sTimeMin = timeToMinDict[res[0].course_info[0].start_time];
+            var eTimeHr = timeToHourDict[res[0].course_info[0].end_time];
+            var eTimeMin = timeToMinDict[res[0].course_info[0].end_time];
 
-        for (var i=0; i<res[0].course_info[0].days.length; i++) {
-          var day = dayToNumDict[res[0].course_info[0].days[i]];
+            for (var i=0; i<res[0].course_info[0].days.length; i++) {
+              var day = dayToNumDict[res[0].course_info[0].days[i]];
 
-          this.schedObj.addEvent([{
-            id: counter,
-            Subject: `${res[0].subject} - ${res[0].catalog_nbr}`,
-            StartTime: new Date(2021, 8, dayToNumDict[res[0].course_info[0].days[i]], sTimeHr, sTimeMin),
-            EndTime: new Date(2021, 8, dayToNumDict[res[0].course_info[0].days[i]], eTimeHr, eTimeMin),
-            isAllDay: false
-          }])
-          counter++;
-          this.eventsCurrentlyInTimetable = counter;
-          console.log(this.eventsCurrentlyInTimetable);
-        }
+              this.schedObj.addEvent([{
+                id: counter,
+                Subject: `${res[0].subject} - ${res[0].catalog_nbr}`,
+                StartTime: new Date(2021, 8, dayToNumDict[res[0].course_info[0].days[i]], sTimeHr, sTimeMin),
+                EndTime: new Date(2021, 8, dayToNumDict[res[0].course_info[0].days[i]], eTimeHr, eTimeMin),
+                isAllDay: false
+              }])
+              counter++;
+              this.eventsCurrentlyInTimetable = counter;
+              console.log(this.eventsCurrentlyInTimetable);
+            }
+          }
         })
       }
     })

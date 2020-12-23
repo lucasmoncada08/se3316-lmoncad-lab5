@@ -18,6 +18,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
 
   courselists;
   newCourseList;
+  myCourseLists;
 
   // readonly url = 'http://localhost:3000'
 
@@ -45,6 +46,11 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       console.log(this.courselists);
     })
     // console.log('User authenticated: ', this.userIsAuthenticated);
+    this.http.get('http://localhost:3000/api/courselists/mycourselists')
+    .subscribe(courselists => {
+      this.myCourseLists = courselists
+      console.log(this.myCourseLists);
+    })
   }
 
   addCourseList(name, descr, priv, courseId1, subjCode1, courseId2,

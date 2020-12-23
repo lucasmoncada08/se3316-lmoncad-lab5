@@ -107,6 +107,8 @@ app.post('/api/courselists/add', checkAuth, (req, res, next) => {
 
 })
 
+// app.post('/api/courselists/edit')
+
 app.post('/api/users/signup', (req, res, next) => {
   console.log('Creating new user');
 
@@ -221,6 +223,13 @@ app.post('/api/users/updatepassword', (req, res, next) => {
 
 app.get('/api/courselists/public', (req, res, next) => {
   CourseList.find({privacy: 'Public'}).sort({year: -1, month: -1, day: -1})
+  .then(lists => {
+    res.send(lists);
+  })
+})
+
+app.get('/api/courselists/mycourselists', checkAuth, (req, res, next) => {
+  CourseList.find({creator: req.userData.userId}).sort({year: -1, month: -1, day: -1})
   .then(lists => {
     res.send(lists);
   })
@@ -377,10 +386,6 @@ app.post('/api/admin/showreview', (req, res, next) => {
     });
   })
 })
-
-// app.get('/api/header/checkAdmin', checkAuth, (req, res, next) => {
-//   User.findOne
-// })
 
 module.exports = app
 

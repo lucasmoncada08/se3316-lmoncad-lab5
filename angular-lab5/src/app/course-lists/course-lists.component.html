@@ -21,11 +21,11 @@
 
 <h3>My Course Lists: </h3>
 
-<!-- <mat-accordion *ngIf='mycourselists'>
-  <mat-expansion-panel *ngFor="let list of mycourselists; let i=index">
+<mat-accordion *ngIf='myCourseLists'>
+  <mat-expansion-panel *ngFor="let list of myCourseLists">
     <mat-expansion-panel-header>
       <p class="glance-info">Name: {{ list?.name }}</p>
-      <p class="glance-info">Creator: {{ list?.creator }}</p>
+      <p class="glance-info">Privacy: {{ list?.privacy }}</p>
       <p class="glance-info"># of Courses: {{ list?.courses.length }}</p>
       <p class="glance-info">Modified Date: {{ list?.month }}/{{ list?.day }}/{{ list?.year }}</p>
     </mat-expansion-panel-header>
@@ -35,7 +35,7 @@
       <li class="extra-info" *ngFor='let course of list?.courses'>{{ course.subjCode }} - {{ course.courseId }}</li>
     </ul>
   </mat-expansion-panel>
-</mat-accordion> -->
+</mat-accordion>
 
 <br>
 <br>
