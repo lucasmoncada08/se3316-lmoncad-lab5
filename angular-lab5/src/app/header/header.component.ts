@@ -11,6 +11,8 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
+  userIsAdmin = false;
+  private adminListenerSubs: Subscription;
 
   constructor(private authService: AuthService) {};
 
@@ -18,6 +20,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;
+    });
+    this.userIsAdmin = this.authService.getIsAdmin();
+    this.adminListenerSubs = this.authService.getAdminStatusListener().subscribe(isAdmin => {
+      this.userIsAdmin = isAdmin;
     });
   }
 

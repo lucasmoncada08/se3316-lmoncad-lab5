@@ -7,14 +7,24 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private isAuthenticated = false;
+  private isAdmin = false;
   private token: string;
   private tokenTimer: any;
   private authStatusListener = new Subject<boolean>();
+  private adminStatusListener = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
     return this.token;
+  }
+
+  getIsAdmin() {
+    return this.isAdmin;
+  }
+
+  getAdminStatusListener() {
+    return this.adminStatusListener.asObservable();
   }
 
   getIsAuth() {
@@ -33,7 +43,7 @@ export class AuthService {
 
     // console.log(authData);
 
-    this.http.post<{token: string, expiresIn: number}>('http://localhost:3000/api/users/login',
+    this.http.post<{token: string, expiresIn: number, admin: boolean}>('http://localhost:3000/api/users/login',
      JSON.stringify(authData), options)
       .subscribe(res => {
         this.token = res.token;
@@ -44,10 +54,14 @@ export class AuthService {
             const expiresInDuration = res.expiresIn
             this.setAuthTimer(expiresInDuration);
             this.isAuthenticated = true;
+            if (res.admin) {
+              this.isAdmin = true;
+              this.adminStatusListener.next(true);
+            }
             this.authStatusListener.next(true);
             const now = new Date();
             const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
-            this.saveAuthData(res.token, expirationDate);
+            this.saveAuthData(res.token, expirationDate, this.isAdmin);
             this.router.navigate(['/courselists']);
           }
         }
@@ -68,16 +82,39 @@ export class AuthService {
       this.isAuthenticated = true;
       this.setAuthTimer(expiresIn / 1000)
       this.authStatusListener.next(true);
+      if (authInfo.isAdmin) {
+        this.isAdmin = authInfo.isAdmin;
+        this.adminStatusListener.next(true);
+      }
     }
   }
 
-  logout() {
-    this.token = null;
-    this.isAuthenticated = false;
-    this.authStatusListener.next(false);
-    clearTimeout(this.tokenTimer);
-    this.clearAuthData();
-    this.router.navigate(['/login']);
+  private saveAuthData(token: string, expirationDate: Date, isAdmin: boolean) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationDate.toISOString());
+    var admin = isAdmin==true ? 'true' : 'false';
+    localStorage.setItem('admin', admin);
+  }
+
+  private clearAuthData() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('admin');
+  }
+
+  private getAuthData() {
+    const token = localStorage.getItem('token');
+    const expirationDate = localStorage.getItem('expiration');
+    const admin = localStorage.getItem('admin');
+    var isAdmin = admin=='true' ? true : false;
+    if (!token || !expirationDate || !admin) {
+      return;
+    }
+    return {
+      token: token,
+      expirationDate: new Date(expirationDate),
+      isAdmin: isAdmin
+    }
   }
 
   private setAuthTimer(duration: number) {
@@ -87,26 +124,15 @@ export class AuthService {
     }, duration*1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('expiration', expirationDate.toISOString());
-  }
-
-  private clearAuthData() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiration');
-  }
-
-  private getAuthData() {
-    const token = localStorage.getItem('token');
-    const expirationDate = localStorage.getItem('expiration');
-    if (!token || !expirationDate) {
-      return;
-    }
-    return {
-      token: token,
-      expirationDate: new Date(expirationDate)
-    }
+  logout() {
+    this.token = null;
+    this.isAuthenticated = false;
+    this.isAdmin = false;
+    this.authStatusListener.next(false);
+    this.adminStatusListener.next(false);
+    clearTimeout(this.tokenTimer);
+    this.clearAuthData();
+    this.router.navigate(['/login']);
   }
 
 }

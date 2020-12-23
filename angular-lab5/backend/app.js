@@ -185,7 +185,8 @@ app.post('/api/users/login', (req, res, next) => {
 
         res.status(200).json({
           token: token,
-          expiresIn: 3600
+          expiresIn: 3600,
+          admin: fetchedUser.admin
         });
       }
     })
@@ -376,6 +377,10 @@ app.post('/api/admin/showreview', (req, res, next) => {
     });
   })
 })
+
+// app.get('/api/header/checkAdmin', checkAuth, (req, res, next) => {
+//   User.findOne
+// })
 
 module.exports = app
 
