@@ -22,6 +22,8 @@ export class CourseListsComponent implements OnInit, OnDestroy {
   newCourseList;
   myCourseLists;
 
+  courseReviews;
+
   // readonly url = 'http://localhost:3000'
 
   @ViewChild("scheduleObj") schedObj: ScheduleComponent;
@@ -187,6 +189,13 @@ export class CourseListsComponent implements OnInit, OnDestroy {
     })
 
     }
+  }
+
+  onGetReviews(subjCode, courseCode) {
+    this.http.get(`http://localhost:3000/api/coursereviews/view/${subjCode}/${courseCode}`)
+    .subscribe(courseRevs => {
+      this.courseReviews = courseRevs
+    })
   }
 
   onAddToTimetable(clist) {

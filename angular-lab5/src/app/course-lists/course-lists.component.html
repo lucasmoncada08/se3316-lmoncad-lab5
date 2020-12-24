@@ -14,6 +14,9 @@
       <li class="extra-info" *ngFor='let course of list?.courses'>
         <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>
           {{ course.subjCode }} - {{ course.courseId }}
+          <button (click)='onGetReviews(course.subjCode, course.courseId)'>
+            View Review
+          </button>
         </span>
       </li>
     </ul>
@@ -40,13 +43,36 @@
     <p id="courseListTitle" class="extra-info">Courses: </p>
     <ul>
       <li class="extra-info" *ngFor='let course of list?.courses'>
-        <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>{{ course.subjCode }} - {{ course.courseId }}</span></li>
-    </ul>
+        <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>
+          {{ course.subjCode }} - {{ course.courseId }}
+          <button (click)='onGetReviews(course.subjCode, course.courseId)'>
+            View Review
+          </button>
+        </span>
+        </li>
+      </ul>
     <button (click)='onAddToTimetable(list?.name)'>
       Add to Timetable
     </button>
   </mat-expansion-panel>
 </mat-accordion>
+
+<div *ngIf='courseReviews'>
+  <br>
+  <br>
+  <h2>Course Reviews</h2>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let rev of courseReviews; let i=index">
+        <mat-expansion-panel-header *ngIf='i<10'>
+          <p class="glance-info">Course: {{ rev?.subjCode }}-{{ rev?.courseCode }}</p>
+          <p class="glance-info">Reviewer: {{ rev?.username }}</p>
+          <p class="glance-info">Rating: {{ rev?.rating }}</p>
+          <p class="glance-info">Created Date: {{ rev?.month }}/{{ rev?.day }}/{{ rev?.year }}</p>
+        </mat-expansion-panel-header>
+      <p class="extra-info" *ngIf='i<10'>Review: {{ rev?.reviewText }}</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
 
 <br>
 <br>

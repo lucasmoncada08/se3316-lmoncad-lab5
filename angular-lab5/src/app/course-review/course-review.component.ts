@@ -41,7 +41,7 @@ export class CourseReviewComponent implements OnInit, OnDestroy {
 
   onCreateReview(subjCode, courseCode, rating, reviewText) {
 
-    if (confirm('Are you sure you would like to delete this review')) {
+    if (confirm('Are you sure you would like to add this review')) {
       const data = {
         "courseCode": courseCode,
         "subjCode": subjCode,
