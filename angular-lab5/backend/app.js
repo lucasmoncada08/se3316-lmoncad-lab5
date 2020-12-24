@@ -116,28 +116,66 @@ app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
   var month = date.getUTCMonth() + 1;
   var year = date.getUTCFullYear();
 
-  mongoose.set('useFindAndModify', false);
+  var courses = req.body.courses;
+  var allMatches = true;
 
-  var cond = {
-    'creator': req.userData.userId, 'name': req.body.name
-  };
+  var subjFlag;
+  var courseFlag;
 
-  var settings = {
-    descr: req.body.descr,
-    day: day, month: month, year: year,
-    courses: req.body.courses, privacy: req.body.privacy,
-    numOfCourses: req.body.numOfCourses
+  for (var j=0; j<5; j++) {
+    console.log('loop start: '+j);
+    console.log((courses[j].subjCode=='' || courses[j].subjCode=='Subject Code' || courses[j].courseId=='' || courses[j].courseId=='Course Code'));
+    // console.log(courses[j].subjCode=='Subject Code');
+
+    if (!(courses[j].subjCode=='' || courses[j].subjCode=='Subject Code' || courses[j].courseId=='' || courses[j].courseId=='Course Code')) {
+      subjFlag = false;
+      courseFlag = false;
+      for (var i=0; i<courseData.length; i++) {
+        if (String(courseData[i].subject).toLowerCase().includes(courses[j].subjCode.toLowerCase()))
+          subjFlag = true;
+        if (String(courseData[i].catalog_nbr).toLowerCase().includes(courses[j].courseId.toLowerCase()))
+          courseFlag = true;
+        if (subjFlag && courseFlag)
+          break;
+      }
+      if (!subjFlag || !courseFlag) {
+        console.log('allMatches = false flag')
+        console.log(courses[j].subjCode.toLowerCase());
+        console.log(courses[j].courseId.toLowerCase());
+        allMatches = false;
+        break;
+      }
+      console.log('subjFlag: '+ subjFlag);
+      console.log('courseFlag: '+ courseFlag);
+      console.log('allMatches: '+ allMatches);
+    }
   }
 
-  CourseList.findOneAndUpdate(cond, { $set: settings }, {upsert: false}, function(err, doc) {
-    if (err) {
-      return res.status(500).json({error: err, message: 'err in findOneAndUpdate'});
-    }
-    else {
-      return res.status(200).json({ message: 'updated course list' });
-    }
-  });
+  if (allMatches) {
+    mongoose.set('useFindAndModify', false);
 
+    var cond = {
+      'creator': req.userData.userId, 'name': req.body.name
+    };
+
+    var settings = {
+      descr: req.body.descr,
+      day: day, month: month, year: year,
+      courses: req.body.courses, privacy: req.body.privacy,
+      numOfCourses: req.body.numOfCourses
+    }
+
+    CourseList.findOneAndUpdate(cond, { $set: settings }, {upsert: false}, function(err, doc) {
+      if (err) {
+        return res.status(500).json({error: err, message: 'err in findOneAndUpdate'});
+      }
+      else {
+        return res.status(200).json({ message: 'updated course list' });
+      }
+    });
+  }
+  else
+    res.send('One or more courses are invalid');
 })
 
 app.post('/api/users/signup', (req, res, next) => {

@@ -6,7 +6,7 @@ const courseSchema = mongoose.Schema({
 })
 
 const courseListsSchema = mongoose.Schema({
-  name: String,
+  name: {type: String, unique:true},
   creator: {type: String, ref: 'User'},
   descr: String,
   day: Number,
