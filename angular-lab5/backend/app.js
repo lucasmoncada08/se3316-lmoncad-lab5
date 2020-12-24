@@ -72,7 +72,6 @@ app.post('/api/coursereviews/add', checkAuth, (req, res, next) => {
 
 app.get('/api/coursereviews/view/:subjCode/:courseCode', (req, res, next) => {
   CourseReview.find({subjCode: req.params.subjCode, courseCode: req.params.courseCode, hidden: false}).then(reviews => {
-    console.log(reviews);
     res.send(reviews);
   })
 })
@@ -123,9 +122,6 @@ app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
   var courseFlag;
 
   for (var j=0; j<5; j++) {
-    console.log('loop start: '+j);
-    console.log((courses[j].subjCode=='' || courses[j].subjCode=='Subject Code' || courses[j].courseId=='' || courses[j].courseId=='Course Code'));
-    // console.log(courses[j].subjCode=='Subject Code');
 
     if (!(courses[j].subjCode=='' || courses[j].subjCode=='Subject Code' || courses[j].courseId=='' || courses[j].courseId=='Course Code')) {
       subjFlag = false;
@@ -139,15 +135,9 @@ app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
           break;
       }
       if (!subjFlag || !courseFlag) {
-        console.log('allMatches = false flag')
-        console.log(courses[j].subjCode.toLowerCase());
-        console.log(courses[j].courseId.toLowerCase());
         allMatches = false;
         break;
       }
-      console.log('subjFlag: '+ subjFlag);
-      console.log('courseFlag: '+ courseFlag);
-      console.log('allMatches: '+ allMatches);
     }
   }
 

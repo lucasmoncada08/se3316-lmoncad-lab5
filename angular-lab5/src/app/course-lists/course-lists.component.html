@@ -10,20 +10,25 @@
       </mat-expansion-panel-header>
     <p class="extra-info" *ngIf='i<10'>Description: {{ list?.descr }}</p>
     <p id="courseListTitle" class="extra-info" *ngIf='i<10'>Courses: </p>
-    <ul>
+    <ul *ngIf='i<10'>
       <li class="extra-info" *ngFor='let course of list?.courses'>
-        <span *ngIf='i<10 && course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>{{ course.subjCode }} - {{ course.courseId }}</span>
+        <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>
+          {{ course.subjCode }} - {{ course.courseId }}
+        </span>
       </li>
     </ul>
+    <button (click)='onAddToTimetable(list?.name)'>
+      Add to Timetable
+    </button>
   </mat-expansion-panel>
 </mat-accordion>
 
 <br>
 <br>
 
-<h3>My Course Lists: </h3>
+<h3 *ngIf='userIsAuthenticated'>My Course Lists: </h3>
 
-<mat-accordion *ngIf='myCourseLists'>
+<mat-accordion *ngIf='userIsAuthenticated && myCourseLists'>
   <mat-expansion-panel *ngFor="let list of myCourseLists">
     <mat-expansion-panel-header>
       <p class="glance-info">Name: {{ list?.name }}</p>
@@ -37,6 +42,9 @@
       <li class="extra-info" *ngFor='let course of list?.courses'>
         <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>{{ course.subjCode }} - {{ course.courseId }}</span></li>
     </ul>
+    <button (click)='onAddToTimetable(list?.name)'>
+      Add to Timetable
+    </button>
   </mat-expansion-panel>
 </mat-accordion>
 
@@ -161,6 +169,20 @@ c3UCC.value, c3USC.value, c4UCC.value, c4USC.value, c5UCC.value, c5USC.value)' *
   <input #clDeleteName/>
   <button id='deleteButton' (click)='onDeleteCourseList(clDeleteName.value)'>Delete</button>
 </span>
+
+<br>
+<br>
+
+<div>
+  <h1>Timetable</h1>
+
+  <br>
+  <ejs-schedule #scheduleObj width='100%'  startHour='08:00' endHour='22:00' [selectedDate]='selectedDate'>
+    <e-views>
+      <e-view option='WorkWeek' dateFormat='dd-MMM-yyyy'></e-view>
+    </e-views>
+  </ejs-schedule>
+</div>
 
 <br>
 <br>
