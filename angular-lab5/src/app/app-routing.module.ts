@@ -9,6 +9,7 @@ import { TimetableComponent } from './timetable/timetable.component';
 import { CourseReviewComponent } from './course-review/course-review.component';
 import { AdminComponent } from './admin/admin.component';
 import { UpdatePassComponent } from './auth/update-pass/update-pass.component';
+import { CopyrightComponent } from './copyright/copyright.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,10 @@ const routes: Routes = [
   {
     path: 'account',
     component: UpdatePassComponent
+  },
+  {
+    path: 'copyright',
+    component: CopyrightComponent
   }
 ]
 

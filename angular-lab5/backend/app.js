@@ -16,6 +16,8 @@ const app = express();
 
 var salt = bcrypt.genSaltSync();
 
+var secAndPrivPolicy;
+
 mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority&ssl=true', {useNewUrlParser: true})
   .then(() => {
     console.log('Connection successful!');
@@ -444,6 +446,17 @@ app.post('/api/admin/showreview', (req, res, next) => {
       message: 'review is shown'
     });
   })
+})
+
+app.post('/api/copyright/cusecpolicy', (req, res, next) => {
+  secAndPrivPolicy = req.body.secAndPrivPolicy;
+  res.status(200).json({
+    message: 'security and privacy policy was created/updated'
+  });
+})
+
+app.get('/api/copyright/getcusecpolicy', (req, res, next) => {
+  res.send(secAndPrivPolicy);
 })
 
 module.exports = app

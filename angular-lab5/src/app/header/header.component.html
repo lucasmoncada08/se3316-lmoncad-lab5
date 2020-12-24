@@ -12,6 +12,7 @@
     <span *ngIf='userIsAuthenticated'><button mat-button (click)='onLogout()' >Logout</button></span>
     <span *ngIf='userIsAdmin'><a mat-button routerLink='/admin' routerLinkActive='mat-accent'>Admin</a></span>
     <span *ngIf='userIsAuthenticated'><a mat-button routerLink='/account' routerLinkActive='mat-accent'>Account</a></span>
+    <span><a mat-button routerLink='/copyright' routerLinkActive='mat-accent'>Copyright</a></span>
   </ul>
 </mat-toolbar>
 
