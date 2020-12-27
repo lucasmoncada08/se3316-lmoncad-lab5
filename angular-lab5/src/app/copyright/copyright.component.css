@@ -7,3 +7,11 @@
 .wide-text {
   width: 60%;
 }
+
+h2 {
+  margin-top: 3rem;
+}
+
+button {
+  margin-left: 3rem;
+}

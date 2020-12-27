@@ -17,6 +17,8 @@ const app = express();
 var salt = bcrypt.genSaltSync();
 
 var secAndPrivPolicy;
+var DMCAPolicy;
+var AUPPolicy;
 
 mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority&ssl=true', {useNewUrlParser: true})
   .then(() => {
@@ -456,7 +458,29 @@ app.post('/api/copyright/cusecpolicy', (req, res, next) => {
 })
 
 app.get('/api/copyright/getcusecpolicy', (req, res, next) => {
-  res.send(secAndPrivPolicy);
+  res.send({secAndPrivPolicy: secAndPrivPolicy});
+})
+
+app.post('/api/copyright/cuDMCAPolicy', checkAuth, (req, res, next) => {
+  DMCAPolicy = req.body.DMCAPolicy;
+  res.status(200).json({
+    message: 'DMCA Policy was created/updated'
+  });
+})
+
+app.get('/api/copyright/getcuDMCAPolicy', (req, res, next) => {
+  res.send({DMCAPolicy: DMCAPolicy});
+})
+
+app.post('/api/copyright/cuAUPPolicy', checkAuth, (req, res, next) => {
+  AUPPolicy = req.body.AUPPolicy;
+  res.status(200).json({
+    message: 'Acceptable Use Policy was created/updated'
+  });
+})
+
+app.get('/api/copyright/getcuAUPPolicy', (req, res, next) => {
+  res.send({AUPPolicy: AUPPolicy});
 })
 
 module.exports = app
