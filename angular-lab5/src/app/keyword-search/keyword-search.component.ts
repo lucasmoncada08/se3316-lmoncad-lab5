@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'
 
 @Component({
   selector: 'keyword-search',
@@ -7,13 +8,16 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./keyword-search.component.css']
 })
 
+/* Component to allow keyword searching for users */
 export class KeywordSearchComponent {
 
   constructor(private http: HttpClient) {};
 
+  apiUrl = environment.apiUrl;
+
   courseQueryShow = false;
-  noQueries = false;
-  moreChars = false;
+  noQueries = false; // For displaying "no results" message
+  moreChars = false; // For not entering enough characters indicator
   courses;
 
   onKeySearchCourses(courseCode, courseName) {
@@ -30,7 +34,7 @@ export class KeywordSearchComponent {
     else if(courseName.length < 4)
       this.moreChars = true;
 
-    this.http.get(`http://localhost:3000/api/coursekeywordsearch/${courseCode}/${courseName}`)
+    this.http.get(this.apiUrl + `/coursekeywordsearch/${courseCode}/${courseName}`)
     .subscribe((courseData) => {
       this.courses = courseData;
       console.log(this.courses);

@@ -10,9 +10,8 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./log-in.component.css']
 })
 
+/* Component that works with auth.service to provide the login functionalities */
 export class LogInComponent {
-
-  // constructor(private http: HttpClient) {};
 
   constructor(public authService: AuthService) {}
 
@@ -21,7 +20,6 @@ export class LogInComponent {
   isLoading = false;
 
   onLogin(form: NgForm) {
-    // console.log(form.value);
     if (form.invalid)
       return;
 

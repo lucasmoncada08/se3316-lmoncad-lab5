@@ -5,12 +5,13 @@ import { LogInComponent } from './auth/log-in/log-in.component'
 import { CourseSearchComponent } from './course-search/course-search.component';
 import { KeywordSearchComponent } from './keyword-search/keyword-search.component';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
-import { TimetableComponent } from './timetable/timetable.component';
 import { CourseReviewComponent } from './course-review/course-review.component';
 import { AdminComponent } from './admin/admin.component';
 import { UpdatePassComponent } from './auth/update-pass/update-pass.component';
 import { CopyrightComponent } from './copyright/copyright.component';
 
+
+/* Routing module to allowing users to be directed to other components */
 const routes: Routes = [
   {
     path: '',
@@ -31,15 +32,6 @@ const routes: Routes = [
   {
     path: 'coursereviews',
     component: CourseReviewComponent
-  },
-  {
-    path: 'timetable',
-    component: TimetableComponent
-  },
-  {
-    path: 'courselists',
-    component: TimetableComponent,
-    outlet: 'outlet-2'
   },
   {
     path: 'signup',

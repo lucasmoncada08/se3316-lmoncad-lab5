@@ -2,10 +2,10 @@
 <h3>Search for Courses: </h3>
 
 <p class="">Subject: </p>
-<input #courseSearchSubj/>
+<input #courseSearchSubj maxlength="25"/>
 
 <p class="">Course Code: </p>
-<input #courseSearchCourseCode/>
+<input #courseSearchCourseCode maxlength="15"/>
 
 <button class="textBtn" id=""
 (click)="onSearchCourses(courseSearchSubj.value, courseSearchCourseCode.value)">Search</button>

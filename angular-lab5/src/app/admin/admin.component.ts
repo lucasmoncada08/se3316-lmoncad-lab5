@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'
 
 @Component({
   selector: 'admin',
@@ -7,9 +8,12 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./admin.component.css']
 })
 
+/* Component with the admin functionalities */
 export class AdminComponent {
 
   constructor(private http: HttpClient) {}
+
+  apiUrl = environment.apiUrl;
 
   onGrantAccess(adUsername) {
 
@@ -18,7 +22,7 @@ export class AdminComponent {
       body: JSON.stringify({username: adUsername})
     }
 
-    this.http.post('http://localhost:3000/api/admin/grantaccess', JSON.stringify({username: adUsername}), options)
+    this.http.post(this.apiUrl + '/admin/grantaccess', JSON.stringify({username: adUsername}), options)
     .subscribe(res => {
       console.log('Updated user to admin access');
     });
@@ -30,7 +34,7 @@ export class AdminComponent {
       body: JSON.stringify({username: adDeactUsername})
     }
 
-    this.http.post('http://localhost:3000/api/admin/deactivate', JSON.stringify({username: adDeactUsername}), options)
+    this.http.post(this.apiUrl + '/admin/deactivate', JSON.stringify({username: adDeactUsername}), options)
     .subscribe(res => {
       console.log('Deactivated user');
     });
@@ -42,7 +46,7 @@ export class AdminComponent {
       body: JSON.stringify({username: adReactUsername})
     }
 
-    this.http.post('http://localhost:3000/api/admin/reactivate', JSON.stringify({username: adReactUsername}), options)
+    this.http.post(this.apiUrl + '/admin/reactivate', JSON.stringify({username: adReactUsername}), options)
     .subscribe(res => {
       console.log('Reactivated user');
     });
@@ -61,7 +65,7 @@ export class AdminComponent {
       body: JSON.stringify(data)
     }
 
-    this.http.post('http://localhost:3000/api/admin/hidereview', JSON.stringify(data), options)
+    this.http.post(this.apiUrl + '/admin/hidereview', JSON.stringify(data), options)
     .subscribe(res => {
       console.log('Hide review');
     });
@@ -80,7 +84,7 @@ export class AdminComponent {
       body: JSON.stringify(data)
     }
 
-    this.http.post('http://localhost:3000/api/admin/showreview', JSON.stringify(data), options)
+    this.http.post(this.apiUrl + '/admin/showreview', JSON.stringify(data), options)
     .subscribe(res => {
       console.log('Shown review');
     });

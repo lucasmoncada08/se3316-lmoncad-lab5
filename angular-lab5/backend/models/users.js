@@ -1,3 +1,5 @@
+/* Data model for application users */
+
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 

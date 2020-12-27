@@ -83,10 +83,10 @@
   <br>
 
   <p class="medInput" width="50">Course List Name: </p>
-  <input #clName/>
+  <input #clName ngModel maxlength="50"/>
 
   <p class="">Description: </p>
-  <input class="longInput" #clDescr/>
+  <input class="longInput" #clDescr ngModel maxlength="100"/>
 
   <br>
   <p class="">Private: </p>
@@ -98,32 +98,32 @@
   <h4>Courses</h4>
 
   <p class="">Course 1: </p>
-  <input #c1CC value='Course Code'/>
-  <input #c1SC value='Subject Code'/>
+  <input #c1CC maxlength="15" value='Course Code'/>
+  <input #c1SC maxlength="25" value='Subject Code'/>
 
   <br>
 
   <p class="">Course 2: </p>
-  <input #c2CC value='Course Code'/>
-  <input #c2SC value='Subject Code'/>
+  <input #c2CC value='Course Code' maxlength="15"/>
+  <input #c2SC value='Subject Code' maxlength="25"/>
 
   <br>
 
   <p class="">Course 3: </p>
-  <input #c3CC value='Course Code'/>
-  <input #c3SC value='Subject Code'/>
+  <input #c3CC value='Course Code' maxlength="15"/>
+  <input #c3SC value='Subject Code' maxlength="25"/>
 
   <br>
 
   <p class="">Course 4: </p>
-  <input #c4CC value='Course Code'/>
-  <input #c4SC value='Subject Code'/>
+  <input #c4CC value='Course Code' maxlength="15"/>
+  <input #c4SC value='Subject Code' maxlength="25"/>
 
   <br>
 
   <p class="">Course 5: </p>
-  <input #c5CC value='Course Code'/>
-  <input #c5SC value='Subject Code'/>
+  <input #c5CC value='Course Code' maxlength="15"/>
+  <input #c5SC value='Subject Code' maxlength="25"/>
 
   <button (click)='addCourseList(clName.value, clDescr.value,
   clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
@@ -141,10 +141,10 @@ c3UCC.value, c3USC.value, c4UCC.value, c4USC.value, c5UCC.value, c5USC.value)' *
   <br>
 
   <p class="medInput" width="50">Course List Name: </p>
-  <input #clUName required/>
+  <input #clUName required  maxlength="50"/>
 
   <p class="">Description: </p>
-  <input class="longInput" #clUDescr/>
+  <input class="longInput" #clUDescr maxlength="100"/>
 
   <br>
   <p class="">Private: </p>
@@ -156,32 +156,32 @@ c3UCC.value, c3USC.value, c4UCC.value, c4USC.value, c5UCC.value, c5USC.value)' *
   <h4>Courses</h4>
 
   <p class="">Course 1: </p>
-  <input #c1UCC value='Course Code' required/>
-  <input #c1USC value='Subject Code' required/>
+  <input #c1UCC value='Course Code' required  maxlength="15"/>
+  <input #c1USC value='Subject Code' required  maxlength="25"/>
 
   <br>
 
   <p class="">Course 2: </p>
-  <input #c2UCC value='Course Code' required/>
-  <input #c2USC value='Subject Code' required/>
+  <input #c2UCC value='Course Code' required  maxlength="15"/>
+  <input #c2USC value='Subject Code' required  maxlength="25"/>
 
   <br>
 
   <p class="">Course 3: </p>
-  <input #c3UCC value='Course Code' required/>
-  <input #c3USC value='Subject Code' required/>
+  <input #c3UCC value='Course Code' required  maxlength="15"/>
+  <input #c3USC value='Subject Code' required  maxlength="25"/>
 
   <br>
 
   <p class="">Course 4: </p>
-  <input #c4UCC value='Course Code' required/>
-  <input #c4USC value='Subject Code' required/>
+  <input #c4UCC value='Course Code' required  maxlength="15"/>
+  <input #c4USC value='Subject Code' required  maxlength="25"/>
 
   <br>
 
   <p class="">Course 5: </p>
-  <input #c5UCC value='Course Code' required/>
-  <input #c5USC value='Subject Code' required/>
+  <input #c5UCC value='Course Code' required  maxlength="15"/>
+  <input #c5USC value='Subject Code' required  maxlength="25"/>
 
   <button type='submit'>Edit</button>
 </form>
@@ -192,7 +192,7 @@ c3UCC.value, c3USC.value, c4UCC.value, c4USC.value, c5UCC.value, c5USC.value)' *
 <span *ngIf='userIsAuthenticated'>
   <h2>Delete a Course List</h2>
   <p class="">Course List Name: </p>
-  <input #clDeleteName/>
+  <input #clDeleteName ngModel maxlength="50"/>
   <button id='deleteButton' (click)='onDeleteCourseList(clDeleteName.value)'>Delete</button>
 </span>
 

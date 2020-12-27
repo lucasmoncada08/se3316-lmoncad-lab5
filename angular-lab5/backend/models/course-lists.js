@@ -1,3 +1,5 @@
+/* Data model for course lists */
+
 const mongoose = require('mongoose');
 
 const courseSchema = mongoose.Schema({

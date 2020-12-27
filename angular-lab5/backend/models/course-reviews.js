@@ -1,3 +1,5 @@
+/* Data model for course reviews */
+
 const mongoose = require('mongoose');
 
 const reviewSchema = mongoose.Schema({

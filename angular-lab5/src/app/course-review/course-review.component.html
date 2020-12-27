@@ -35,22 +35,21 @@
   <br>
 
   <p class="medInput" >Subject Code: </p>
-  <input #subjCode/>
+  <input #subjCode maxlength="25"/>
 
   <p class="">Course Code: </p>
-  <input #courseCode/>
+  <input #courseCode maxlength="15"/>
 
   <p class="">Rating (0.5 - 5): </p>
-  <input class="longInput" #rating/>
+  <input class="longInput" #rating maxlength="3"/>
 
   <br>
   <br>
 
   <p class="">Review: </p>
-  <input #reviewText/>
+  <input #reviewText maxlength="250"/>
 
   <br>
-
 
   <button (click)='onCreateReview(subjCode.value, courseCode.value, rating.value, reviewText.value)'>
     Create</button>

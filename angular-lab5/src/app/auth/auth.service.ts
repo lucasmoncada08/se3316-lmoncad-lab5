@@ -2,9 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment'
 
+/* Service class for aiding with the login functionalities, including the caching of a user's token */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
+  apiUrl = environment.apiUrl;
 
   private isAuthenticated = false;
   private isAdmin = false;
@@ -41,9 +45,7 @@ export class AuthService {
       body: JSON.stringify(authData)
     }
 
-    // console.log(authData);
-
-    this.http.post<{token: string, expiresIn: number, admin: boolean}>('http://localhost:3000/api/users/login',
+    this.http.post<{token: string, expiresIn: number, admin: boolean}>(this.apiUrl + '/users/login',
      JSON.stringify(authData), options)
       .subscribe(res => {
         this.token = res.token;
@@ -70,6 +72,7 @@ export class AuthService {
       })
   }
 
+  // Auto login with the locally saved login info if available
   autoAuthUser() {
     const authInfo = this.getAuthData();
     if (!authInfo) {
@@ -89,6 +92,7 @@ export class AuthService {
     }
   }
 
+  // Saving the login info for the duration specified in local storage
   private saveAuthData(token: string, expirationDate: Date, isAdmin: boolean) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());

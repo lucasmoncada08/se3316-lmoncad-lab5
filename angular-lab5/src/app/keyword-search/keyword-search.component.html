@@ -2,10 +2,10 @@
 <h3>Keyword Search for Courses: </h3>
 
 <p class="">Course Code: </p>
-<input minlength="4" #keywordSearchCourseCode/>
+<input minlength="4" #keywordSearchCourseCode maxlength="15"/>
 
 <p class="">Course Name: </p>
-<input minlength="4" #keywordSearchName/>
+<input minlength="4" #keywordSearchName maxlength="45"/>
 
 <button class="textBtn"
  (click)="onKeySearchCourses(keywordSearchCourseCode.value, keywordSearchName.value)">

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subscription } from 'rxjs';
 import { ScheduleComponent, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+import { environment } from '../../environments/environment'
 
 import { AuthService } from '../auth/auth.service';
 
@@ -12,19 +12,18 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./course-lists.component.css']
 })
 
-export class CourseListsComponent implements OnInit, OnDestroy {
+/* Component that holds all functionality relevant to course lists */
+export class CourseListsComponent implements OnInit {
+
+  apiUrl = environment.apiUrl;
 
   userIsAuthenticated = false;
-  // private authListenerSubs: Subscription;
-  // private reqListenerSubs: Subscription;
 
   courselists;
   newCourseList;
   myCourseLists;
 
   courseReviews;
-
-  // readonly url = 'http://localhost:3000'
 
   @ViewChild("scheduleObj") schedObj: ScheduleComponent;
   eventsCurrentlyInTimetable = 0;
@@ -39,18 +38,14 @@ export class CourseListsComponent implements OnInit, OnDestroy {
     this.onRun();
   }
 
-  ngOnDestroy() {
-
-  }
-
   onRun() {
-    this.http.get('http://localhost:3000/api/courselists/public')
+    this.http.get(this.apiUrl + '/courselists/public')
     .subscribe(courselists => {
       this.courselists = courselists
     })
-    // console.log('User authenticated: ', this.userIsAuthenticated);
+    // Getting current users course lists if there is a user logged in
     if (this.userIsAuthenticated) {
-      this.http.get('http://localhost:3000/api/courselists/mycourselists')
+      this.http.get(this.apiUrl + '/courselists/mycourselists')
       .subscribe(courselists => {
         this.myCourseLists = courselists
       })
@@ -63,6 +58,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
     var privacy = '';
     var numOfCourses = 0;
 
+    // Accounting for privacy checkbox
     if (priv)
       privacy = 'Private';
     else
@@ -71,6 +67,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
     var courseCodes = [courseId1, courseId2, courseId3, courseId4, courseId5];
     var subjCodes = [subjCode1, subjCode2, subjCode3, subjCode4, subjCode5];
 
+    // Preparing to store the number of courses
     for (var i=0; i<5; i++) {
       if (courseCodes[i]!='' && courseCodes[i]!='Course Code' && subjCodes[i]!='' && subjCodes[i]!='Subject Code')
         numOfCourses++;
@@ -110,11 +107,10 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       body: JSON.stringify(this.newCourseList)
     }
 
-    this.http.post('http://localhost:3000/api/courselists/add',
+    this.http.post(this.apiUrl + '/courselists/add',
     JSON.stringify(this.newCourseList), data).subscribe(cList => {
       console.log(cList)
     })
-
   }
 
   onEditCourseList(name, descr, priv, courseId1, subjCode1, courseId2,
@@ -169,12 +165,13 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       body: JSON.stringify(this.newCourseList)
     }
 
-    this.http.post('http://localhost:3000/api/courselists/edit',
+    this.http.post(this.apiUrl + '/courselists/edit',
     JSON.stringify(this.newCourseList), data).subscribe(cList => {
       console.log(cList)
     })
   }
 
+  // Only available for admin through html
   onDeleteCourseList(clName) {
 
     if (confirm('Are you sure you would like to delete the course list: ' + clName)) {
@@ -184,7 +181,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       body: {"name": clName}
     }
 
-    this.http.delete(`http://localhost:3000/api/courselists/delete`, options).subscribe(res => {
+    this.http.delete(this.apiUrl + `/courselists/delete`, options).subscribe(res => {
       console.log(res)
     })
 
@@ -192,7 +189,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
   }
 
   onGetReviews(subjCode, courseCode) {
-    this.http.get(`http://localhost:3000/api/coursereviews/view/${subjCode}/${courseCode}`)
+    this.http.get(this.apiUrl + `/coursereviews/view/${subjCode}/${courseCode}`)
     .subscribe(courseRevs => {
       this.courseReviews = courseRevs
     })
@@ -200,10 +197,12 @@ export class CourseListsComponent implements OnInit, OnDestroy {
 
   onAddToTimetable(clist) {
 
+    // Clearing the current events displayed on the timetable
     for (var i=0; i<=this.eventsCurrentlyInTimetable; i++) {
       this.schedObj.deleteEvent(0);
     }
 
+    // Encoding from data day of week to the day in 1st week of Sept
     var dayToNumDict = {
       "M": 6,
       "Tu": 7,
@@ -212,6 +211,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       "F": 10
     };
 
+    // Encoding from time to hour for timetable compatibility
     var timeToHourDict = {
       "8:30 AM": 8, "9:00 AM": 9,
       "9:30 AM": 9, "10:00 AM": 10,
@@ -229,6 +229,7 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       "9:30 PM": 21, "10:00 PM": 22
     };
 
+    // Encoding from time to minutes for timetable compatibility
     var timeToMinDict = {
       "8:30 AM": 30, "9:00 AM": 0,
       "9:30 AM": 30, "10:00 AM": 0,
@@ -255,16 +256,15 @@ export class CourseListsComponent implements OnInit, OnDestroy {
       body: JSON.stringify(data)
     }
 
-    this.http.post('http://localhost:3000/api/timetable/getcourses', JSON.stringify(data), options)
+    this.http.post(this.apiUrl + '/timetable/getcourses', JSON.stringify(data), options)
     .subscribe(r => {
-      // console.log(r[0]);
 
       var counter = 0;
 
       for (var x=0; x<5; x++) {
+        // If the user edited the course info field without setting it blank
         if (r[x].courseId!='' && r[x].courseId!='Course Code' && r[x].subjCode!='' && r[x].subjCode!='Subject Code') {
-          this.http.get(`http://localhost:3000/api/coursesearch/${r[x].courseId}/${r[x].subjCode}`).subscribe(res => {
-            console.log(res);
+          this.http.get(this.apiUrl + `/coursesearch/${r[x].courseId}/${r[x].subjCode}`).subscribe(res => {
             if (res) {
 
               var sTimeHr = timeToHourDict[res[0].course_info[0].start_time];
@@ -284,14 +284,13 @@ export class CourseListsComponent implements OnInit, OnDestroy {
                 }])
                 counter++;
                 this.eventsCurrentlyInTimetable = counter;
-                console.log(this.eventsCurrentlyInTimetable);
               }
             }
           })
         }
       }
-    })
 
+    })
   }
 }
 

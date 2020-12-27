@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 
 import { AuthService } from "./auth.service";
 
+/* Interceptor for setting the relevant header with the login token */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}

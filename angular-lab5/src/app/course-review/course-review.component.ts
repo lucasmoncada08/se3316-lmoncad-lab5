@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { environment } from '../../environments/environment'
 
 import { AuthService } from '../auth/auth.service';
 
@@ -10,9 +11,10 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./course-review.component.css']
 })
 
-// /Users/lucasmoncada/Desktop/SE-3316/se3316-lmoncad-lab5/angular-lab5/src/app/timetable/timetable.component.ts
+/* Component for course review functionality, including getting and creating reviews */
+export class CourseReviewComponent implements OnInit {
 
-export class CourseReviewComponent implements OnInit, OnDestroy {
+  apiUrl = environment.apiUrl;
 
   userIsAuthenticated = false;
   private authListenerSubs: Subscription;
@@ -23,17 +25,10 @@ export class CourseReviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userIsAuthenticated = this.authService.getIsAuth();
-    // this.authListenerSubs = this.authService.getAuthStatusListener().subscribe(isAuth => {
-    //   this.userIsAuthenticated = isAuth;
-    // })
-  }
-
-  ngOnDestroy() {
-    // this.authListenerSubs.unsubscribe();
   }
 
   onGetReviews(subjCode, courseCode) {
-    this.http.get(`http://localhost:3000/api/coursereviews/view/${subjCode}/${courseCode}`)
+    this.http.get(this.apiUrl + `/coursereviews/view/${subjCode}/${courseCode}`)
     .subscribe(courseRevs => {
       this.courseReviews = courseRevs
     })
@@ -41,7 +36,17 @@ export class CourseReviewComponent implements OnInit, OnDestroy {
 
   onCreateReview(subjCode, courseCode, rating, reviewText) {
 
-    if (confirm('Are you sure you would like to add this review')) {
+    // Check if the rating is not a number value
+    if (!Number(rating))
+      alert('Incorrect rating value');
+
+    else if (confirm('Are you sure you would like to add this review')) {
+
+      if (rating > 5)
+        rating = 5;
+      else if (rating < 0.5)
+        rating = 0.5;
+
       const data = {
         "courseCode": courseCode,
         "subjCode": subjCode,
@@ -54,7 +59,7 @@ export class CourseReviewComponent implements OnInit, OnDestroy {
         body: JSON.stringify(data)
       }
 
-      this.http.post('http://localhost:3000/api/coursereviews/add', JSON.stringify(data),
+      this.http.post(this.apiUrl + '/coursereviews/add', JSON.stringify(data),
       options).subscribe(res => console.log(res));
     }
   }

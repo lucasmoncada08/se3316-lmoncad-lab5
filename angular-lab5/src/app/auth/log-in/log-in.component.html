@@ -12,11 +12,11 @@
   <mat-spinner *ngIf='isLoading'></mat-spinner>
   <form (submit)='onLogin(loginForm)' #loginForm='ngForm'>
     <mat-form-field>
-      <input matInput name='email' ngModel type='email' placeholder="Email" #emailInput='ngModel' required email>
+      <input matInput name='email' ngModel type='email' placeholder="Email" #emailInput='ngModel' required email maxlength="45">
       <mat-error *ngIf="emailInput.invalid">Please enter a valid email</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput name='password' type="password" ngModel placeholder="Password" #passwordInput='ngModel' required>
+      <input matInput name='password' type="password" ngModel placeholder="Password" #passwordInput='ngModel' required maxlength="35">
       <mat-error *ngIf='passwordInput.invalid'>Please enter a valid password</mat-error>
     </mat-form-field>
     <button mat-raised-button color='accent' type='submit'>Login</button>

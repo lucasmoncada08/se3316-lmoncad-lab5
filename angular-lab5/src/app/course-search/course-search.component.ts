@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'
 
 @Component({
   selector: 'course-search',
@@ -11,8 +12,10 @@ export class CourseSearchComponent {
 
   constructor(private http: HttpClient) {};
 
+  apiUrl = environment.apiUrl;
+
   courseQueryShow = false;
-  noQueries = false;
+  noQueries = false; // for displaying "found no results message"
   courses;
 
   onSearchCourses(subjCode, courseCode) {
@@ -26,7 +29,7 @@ export class CourseSearchComponent {
       courseCode = 'null';
     }
 
-    this.http.get(`http://localhost:3000/api/coursesearch/${courseCode}/${subjCode}`)
+    this.http.get(this.apiUrl + `/coursesearch/${courseCode}/${subjCode}`)
     .subscribe((courseData) => {
       this.courses = courseData;
       console.log(this.courses);
@@ -35,9 +38,8 @@ export class CourseSearchComponent {
       this.courseQueryShow = true;
     });
 
-    this.http.get('http://localhost:3000/api/courselists/public')
+    this.http.get(this.apiUrl + '/courselists/public')
     .subscribe(courselists => {
-      // this.courselists = courselists
       console.log(courselists);
     })
   }

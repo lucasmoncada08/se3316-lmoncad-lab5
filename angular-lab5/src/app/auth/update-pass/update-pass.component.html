@@ -1,10 +1,7 @@
 <h3>Update Password: </h3>
 
-<p class="">Username: </p>
-<input #username/>
-
 <p class="">New Password: </p>
-<input #newPass/>
+<input #newPass ngModel required maxlength="25"/>
 
 <button class="textBtn" id=""
-(click)="onUpdatePass(username.value, newPass.value)">Update</button>
+(click)="onUpdatePass(newPass.value)">Update</button>

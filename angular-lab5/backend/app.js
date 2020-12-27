@@ -1,11 +1,13 @@
+/* The REST Api that communicates with the application */
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const cors = require('cors');
 
+// Storing data models
 const CourseList = require('./models/course-lists');
 const User = require('./models/users');
 const CourseReview = require('./models/course-reviews');
@@ -20,6 +22,7 @@ var secAndPrivPolicy;
 var DMCAPolicy;
 var AUPPolicy;
 
+// Connect to the MongoDB database
 mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority&ssl=true', {useNewUrlParser: true})
   .then(() => {
     console.log('Connection successful!');
@@ -30,11 +33,13 @@ mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.ne
 
 app.use(bodyParser.json());
 
+// For cors headers
 app.use(cors({
   origin: ['http://localhost:4200'],
   credentials: true
 }));
 
+// Setting headers
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers',
@@ -46,9 +51,11 @@ app.use((req, res, next) => {
   next();
 })
 
+// Adding a course review
 app.post('/api/coursereviews/add', checkAuth, (req, res, next) => {
   console.log('Posting course review');
 
+  // Getting current date
   var date = new Date();
   var d = date.getUTCDate() - 1;
   var m = date.getUTCMonth() + 1;
@@ -66,30 +73,29 @@ app.post('/api/coursereviews/add', checkAuth, (req, res, next) => {
     hidden: false
   })
 
-  console.log(req.body.courseCode);
-
   courseReview.save();
 
   res.send(courseReview);
 
 })
 
+// Get course reviews with specified subject code and course code
 app.get('/api/coursereviews/view/:subjCode/:courseCode', (req, res, next) => {
   CourseReview.find({subjCode: req.params.subjCode, courseCode: req.params.courseCode, hidden: false}).then(reviews => {
     res.send(reviews);
   })
 })
 
+// Adding a course list
 app.post('/api/courselists/add', checkAuth, (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   console.log('Posting to course list');
 
+  // Getting the current date
   var date = new Date();
   var day = date.getUTCDate();
   var month = date.getUTCMonth() + 1;
   var year = date.getUTCFullYear();
-
-  console.log(day);
 
   const courseList = new CourseList({
     name: req.body.name,
@@ -103,17 +109,17 @@ app.post('/api/courselists/add', checkAuth, (req, res, next) => {
     numOfCourses: req.body.numOfCourses
   })
 
-  console.log(req.body);
-
   courseList.save();
 
   res.send(courseList);
 
 })
 
+// Editing a course list
 app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
   console.log('Editing a course list');
 
+  // Getting the current date
   var date = new Date();
   var day = date.getUTCDate();
   var month = date.getUTCMonth() + 1;
@@ -125,8 +131,9 @@ app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
   var subjFlag;
   var courseFlag;
 
+  // Checking for invalid course codes and subject codes
   for (var j=0; j<5; j++) {
-
+    // If user leaves preset field value or deletes the field entirely ignore that
     if (!(courses[j].subjCode=='' || courses[j].subjCode=='Subject Code' || courses[j].courseId=='' || courses[j].courseId=='Course Code')) {
       subjFlag = false;
       courseFlag = false;
@@ -138,6 +145,7 @@ app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
         if (subjFlag && courseFlag)
           break;
       }
+      // If one of subject code or course id is invalid, the whole edit is voided
       if (!subjFlag || !courseFlag) {
         allMatches = false;
         break;
@@ -172,6 +180,7 @@ app.post('/api/courselists/edit', checkAuth, (req, res, next) => {
     res.send('One or more courses are invalid');
 })
 
+// Signing a user up
 app.post('/api/users/signup', (req, res, next) => {
   console.log('Creating new user');
 
@@ -209,9 +218,9 @@ app.post('/api/users/signup', (req, res, next) => {
     res.send('Error in findOne')
   })
 
-
 });
 
+// Logging a user into the app or declining an unknown user
 app.post('/api/users/login', (req, res, next) => {
   let fetchedUser;
   User.findOne({ email: req.body.email })
@@ -222,6 +231,7 @@ app.post('/api/users/login', (req, res, next) => {
         });
       }
 
+      // Accounting for admin deactivated accounts
       if (user.deactivated) {
         return 'Deactivate'
       }
@@ -236,8 +246,6 @@ app.post('/api/users/login', (req, res, next) => {
         });
       }
 
-      console.log('result = ', result);
-
       if (result == 'Deactivate') {
         console.log('Deactivated Account');
         res.status(200).json({
@@ -246,7 +254,7 @@ app.post('/api/users/login', (req, res, next) => {
       }
       else {
         const token = jwt.sign({email: fetchedUser.email, userId: fetchedUser.username}, 'secret_this_should_be_longer',
-        { expiresIn: "1h"} );
+        { expiresIn: "1h"} ); // Setting the login token to expire in 1 hour
 
         res.status(200).json({
           token: token,
@@ -263,6 +271,7 @@ app.post('/api/users/login', (req, res, next) => {
   });
 })
 
+// Updating a users password
 app.post('/api/users/updatepassword', checkAuth, (req, res, next) => {
   mongoose.set('useFindAndModify', false);
 
@@ -284,13 +293,15 @@ app.post('/api/users/updatepassword', checkAuth, (req, res, next) => {
     });
 })
 
+// Getting all public course lists
 app.get('/api/courselists/public', (req, res, next) => {
-  CourseList.find({privacy: 'Public'}).sort({year: -1, month: -1, day: -1})
+  CourseList.find({privacy: 'Public'}).sort({year: -1, month: -1, day: -1}) // sorted by date
   .then(lists => {
     res.send(lists);
   })
 })
 
+// Getting all course lists belonging to the current user
 app.get('/api/courselists/mycourselists', checkAuth, (req, res, next) => {
   CourseList.find({creator: req.userData.userId}).sort({year: -1, month: -1, day: -1})
   .then(lists => {
@@ -298,6 +309,7 @@ app.get('/api/courselists/mycourselists', checkAuth, (req, res, next) => {
   })
 })
 
+// Getting the courses from a specified course list for the timetable displaying
 app.post('/api/timetable/getcourses', (req, res, next) => {
   console.log(req.body.name);
   CourseList.findOne({name: req.body.name})
@@ -306,6 +318,7 @@ app.post('/api/timetable/getcourses', (req, res, next) => {
   });
 })
 
+// Get a list of all courses that meet the course code and/or subject code specifications
 app.get('/api/coursesearch/:courseCode/:subjCode', (req, res, next) => {
 
   var courseCodeFilteredCourses = [];
@@ -343,6 +356,7 @@ app.get('/api/coursesearch/:courseCode/:subjCode', (req, res, next) => {
   res.send(fullyFilteredCourses);
 })
 
+// Get a list of all courses that meet the keyword course code and/or keyword course name specifications
 app.get('/api/coursekeywordsearch/:courseCode/:courseName', (req, res, next) => {
 
   var courseCodeFilteredCourses = [];
@@ -382,6 +396,7 @@ app.get('/api/coursekeywordsearch/:courseCode/:courseName', (req, res, next) => 
   res.send(fullyFilteredCourses);
 })
 
+// Delete a specified course list
 app.delete('/api/courselists/delete', checkAuth, (req, res, next) => {
   console.log('Deleting course list: ' + req.body.name);
   CourseList.deleteOne({ name: req.body.name }).then(result => {
@@ -390,6 +405,7 @@ app.delete('/api/courselists/delete', checkAuth, (req, res, next) => {
   res.send(req.body.name);
 })
 
+// Promoting a regular user into an admin user
 app.post('/api/admin/grantaccess', (req, res, next) => {
   mongoose.set('useFindAndModify', false);
   var cond = { 'username': req.body.username };
@@ -402,6 +418,7 @@ app.post('/api/admin/grantaccess', (req, res, next) => {
  })
 })
 
+// Deactivating a users account
 app.post('/api/admin/deactivate', (req, res, next) => {
   mongoose.set('useFindAndModify', false);
   var cond = { 'username': req.body.username };
@@ -414,6 +431,7 @@ app.post('/api/admin/deactivate', (req, res, next) => {
  })
 })
 
+// Reactivating a users account
 app.post('/api/admin/reactivate', (req, res, next) => {
   mongoose.set('useFindAndModify', false);
   var cond = { 'username': req.body.username };
@@ -426,6 +444,7 @@ app.post('/api/admin/reactivate', (req, res, next) => {
  })
 })
 
+// Hiding a specified review from users
 app.post('/api/admin/hidereview', (req, res, next) => {
   mongoose.set('useFindAndModify', false);
   var cond = { 'username': req.body.username, 'subjCode': req.body.subjCode, 'courseCode': req.body.courseCode };
@@ -438,6 +457,7 @@ app.post('/api/admin/hidereview', (req, res, next) => {
   })
 })
 
+// Revealing a specified hidden review to the users
 app.post('/api/admin/showreview', (req, res, next) => {
   mongoose.set('useFindAndModify', false);
   var cond = { 'username': req.body.username, 'subjCode': req.body.subjCode, 'courseCode': req.body.courseCode };
@@ -450,6 +470,7 @@ app.post('/api/admin/showreview', (req, res, next) => {
   })
 })
 
+// Create/Update the security and privacy policy
 app.post('/api/copyright/cusecpolicy', (req, res, next) => {
   secAndPrivPolicy = req.body.secAndPrivPolicy;
   res.status(200).json({
@@ -457,10 +478,12 @@ app.post('/api/copyright/cusecpolicy', (req, res, next) => {
   });
 })
 
+// Get the current security and privacy policy
 app.get('/api/copyright/getcusecpolicy', (req, res, next) => {
   res.send({secAndPrivPolicy: secAndPrivPolicy});
 })
 
+// Create/Update the DMCA policy
 app.post('/api/copyright/cuDMCAPolicy', checkAuth, (req, res, next) => {
   DMCAPolicy = req.body.DMCAPolicy;
   res.status(200).json({
@@ -468,10 +491,12 @@ app.post('/api/copyright/cuDMCAPolicy', checkAuth, (req, res, next) => {
   });
 })
 
+// Get the current DMCA policy
 app.get('/api/copyright/getcuDMCAPolicy', (req, res, next) => {
   res.send({DMCAPolicy: DMCAPolicy});
 })
 
+// Create/Update the acceptable use policy
 app.post('/api/copyright/cuAUPPolicy', checkAuth, (req, res, next) => {
   AUPPolicy = req.body.AUPPolicy;
   res.status(200).json({
@@ -479,12 +504,14 @@ app.post('/api/copyright/cuAUPPolicy', checkAuth, (req, res, next) => {
   });
 })
 
+// Get the current acceptable use policy
 app.get('/api/copyright/getcuAUPPolicy', (req, res, next) => {
   res.send({AUPPolicy: AUPPolicy});
 })
 
 module.exports = app
 
+// The data provided with all the course information
 var courseData = [
   {
     "catalog_nbr": "1021B",

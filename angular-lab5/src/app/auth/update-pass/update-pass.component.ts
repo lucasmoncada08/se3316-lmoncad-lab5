@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'update-pass',
@@ -7,14 +8,16 @@ import { Component } from "@angular/core";
   styleUrls: ['./update-pass.component.css']
 })
 
+/* Component for allowing users to update their password */
 export class UpdatePassComponent {
 
   constructor(private http: HttpClient) {}
 
-  onUpdatePass(username, newPass) {
+  apiUrl = environment.apiUrl;
+
+  onUpdatePass(newPass) {
 
     const data = {
-      username: username,
       newPass: newPass
     };
 
@@ -23,9 +26,9 @@ export class UpdatePassComponent {
       body: JSON.stringify(data)
     };
 
-    this.http.post('http://localhost:3000/api/users/updatepassword', JSON.stringify(data), options)
+    this.http.post(this.apiUrl + '/users/updatepassword', JSON.stringify(data), options)
       .subscribe(res => {
-        console.log('Update user password ', newPass, ' ', username);
+        console.log('Update user password');
       });
 
   }

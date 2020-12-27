@@ -11,7 +11,6 @@ import { HeaderComponent } from './header/header.component';
 import { LogInComponent } from './auth/log-in/log-in.component'
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { CourseReviewComponent } from './course-review/course-review.component';
-import { TimetableComponent } from './timetable/timetable.component';
 import { UpdatePassComponent } from './auth/update-pass/update-pass.component';
 import { AdminComponent } from './admin/admin.component';
 import { CopyrightComponent } from './copyright/copyright.component'
@@ -41,7 +40,6 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     LogInComponent,
     SignUpComponent,
     CourseReviewComponent,
-    TimetableComponent,
     AdminComponent,
     UpdatePassComponent,
     CopyrightComponent
