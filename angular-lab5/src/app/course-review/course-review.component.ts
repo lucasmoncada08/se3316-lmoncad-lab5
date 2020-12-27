@@ -60,7 +60,7 @@ export class CourseReviewComponent implements OnInit {
       }
 
       this.http.post(this.apiUrl + '/coursereviews/add', JSON.stringify(data),
-      options).subscribe(res => console.log(res));
+      options).subscribe(res => {});
     }
   }
 

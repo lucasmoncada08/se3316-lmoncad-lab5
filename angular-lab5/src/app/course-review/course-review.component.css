@@ -5,3 +5,7 @@ h3 {
 p {
   display: inline;
 }
+
+button {
+  margin: 0.5rem 2.5rem;
+}

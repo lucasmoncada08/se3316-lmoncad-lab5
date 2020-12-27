@@ -7,7 +7,7 @@
 <p class="">Course Code: </p>
 <input #courseSearchCourseCode maxlength="15"/>
 
-<button class="textBtn" id=""
+<button class="textBtn" mat-raised-button color='primary' id=""
 (click)="onSearchCourses(courseSearchSubj.value, courseSearchCourseCode.value)">Search</button>
 
 <p id="noQueriesMsg" *ngIf='noQueries'>No Results Were Found.</p>

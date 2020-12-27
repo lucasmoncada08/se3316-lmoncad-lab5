@@ -14,9 +14,9 @@
 
   <form class='c-forms' (click)='onCUSecAndPrivPolicy(cuSecAndPrivText.value)'>
     <mat-form-field class='wide-text'>
-      <textarea #cuSecAndPrivText matInput placeholder="Policy" ngModel required maxlength="2000">{{ secAndPrivPolicy }}</textarea>
+      <textarea #cuSecAndPrivText matInput placeholder="Policy" required maxlength="2000">{{ secAndPrivPolicy }}</textarea>
     </mat-form-field>
-    <button mat-raised-button type='submit'>Create/Update</button>
+    <button mat-raised-button color='primary' type='submit'>Create/Update</button>
   </form>
 
   <br>
@@ -37,9 +37,9 @@
 
   <form class='c-forms' (click)='onCUDMCAPolicy(cuDMCAPolicyText.value)'>
     <mat-form-field class='wide-text'>
-      <textarea #cuDMCAPolicyText matInput placeholder="Policy" required ngModel maxlength="2000">{{ DMCAPolicy }}</textarea>
+      <textarea #cuDMCAPolicyText matInput placeholder="Policy" required maxlength="2000">{{ DMCAPolicy }}</textarea>
     </mat-form-field>
-    <button mat-raised-button type='submit'>Create/Update</button>
+    <button mat-raised-button color='primary' type='submit'>Create/Update</button>
   </form>
 
   <br>
@@ -57,9 +57,9 @@
 
   <form class='c-forms' (click)='onCUAUPPolicy(cuAUPPolicyText.value)'>
     <mat-form-field class='wide-text'>
-      <textarea #cuAUPPolicyText matInput placeholder="Policy" required ngModel maxlength="2000">{{ AUPPolicy }}</textarea>
+      <textarea #cuAUPPolicyText matInput placeholder="Policy" required maxlength="2000">{{ AUPPolicy }}</textarea>
     </mat-form-field>
-    <button mat-raised-button type='submit'>Create/Update</button>
+    <button mat-raised-button color='primary' type='submit'>Create/Update</button>
   </form>
 </div>
 

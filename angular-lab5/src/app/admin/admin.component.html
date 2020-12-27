@@ -1,34 +1,34 @@
 <h2>Grant a User Admin Access</h2>
 <p class="">User's Username: </p>
-<input #adUsername/>
-<button id='grantAccessBtn' (click)='onGrantAccess(adUsername.value)'>Grant</button>
+<input #adUsername maxlength="45"/>
+<button id='grantAccessBtn' mat-raised-button color='primary' (click)='onGrantAccess(adUsername.value)'>Grant</button>
 
 
 <h2>Deactivate a User's Account</h2>
 <p class="">User's Username: </p>
-<input #adDeactUsername/>
-<button id='deactBtn' (click)='onDeactivate(adDeactUsername.value)'>Deactivate</button>
+<input #adDeactUsername maxlength="45"/>
+<button id='deactBtn' mat-raised-button color='primary' (click)='onDeactivate(adDeactUsername.value)'>Deactivate</button>
 
 
 <h2>Reactivate a User's Account</h2>
 <p class="">User's Username: </p>
 <input #adReactUsername/>
-<button id='reactBtn' (click)='onReactivate(adReactUsername.value)'>Reactivate</button>
+<button id='reactBtn' mat-raised-button color='primary' (click)='onReactivate(adReactUsername.value)'>Reactivate</button>
 
 <h2>Hide a Review</h2>
 <p class="">Reviewer's Username: </p>
-<input #reviewsUsername ngModel maxlength="25"/>
+<input #reviewsUsername ngModel maxlength="45"/>
 <p class="">Subject Code: </p>
-<input #reviewSC ngModel maxlength="25"/>
+<input #reviewSC maxlength="25"/>
 <p class="">Course Code: </p>
-<input #reviewCC ngModel maxlength="25"/>
-<button id='revHideBtn' (click)='onHideReview(reviewsUsername.value, reviewSC.value, reviewCC.value)'>Hide</button>
+<input #reviewCC maxlength="25"/>
+<button id='revHideBtn' mat-raised-button color='primary' (click)='onHideReview(reviewsUsername.value, reviewSC.value, reviewCC.value)'>Hide</button>
 
 <h2>Reshow a Review</h2>
 <p class="">Reviewer's Username: </p>
-<input #showReviewsUsername ngModel maxlength="25"/>
-<p class="" ngModel maxlength="25">Subject Code: </p>
+<input #showReviewsUsername ngModel maxlength="45"/>
+<p class="" maxlength="25">Subject Code: </p>
 <input #showReviewSC/>
-<p class="" ngModel maxlength="25">Course Code: </p>
+<p class="" maxlength="25">Course Code: </p>
 <input #showReviewCC/>
-<button id='revHideBtn' (click)='onShowReview(showReviewsUsername.value, showReviewSC.value, showReviewCC.value)'>Reshow</button>
+<button id='revHideBtn' mat-raised-button color='primary' (click)='onShowReview(showReviewsUsername.value, showReviewSC.value, showReviewCC.value)'>Reshow</button>

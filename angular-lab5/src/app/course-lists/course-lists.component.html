@@ -14,13 +14,13 @@
       <li class="extra-info" *ngFor='let course of list?.courses'>
         <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>
           {{ course.subjCode }} - {{ course.courseId }}
-          <button (click)='onGetReviews(course.subjCode, course.courseId)'>
+          <button mat-raised-button color='accent' (click)='onGetReviews(course.subjCode, course.courseId)'>
             View Review
           </button>
         </span>
       </li>
     </ul>
-    <button (click)='onAddToTimetable(list?.name)'>
+    <button (click)='onAddToTimetable(list?.name)' mat-raised-button color='primary'>
       Add to Timetable
     </button>
   </mat-expansion-panel>
@@ -45,13 +45,13 @@
       <li class="extra-info" *ngFor='let course of list?.courses'>
         <span *ngIf='course.subjCode!="" && course.subjCode!= "Subject Code" && course.courseId!="" && course.courseId!= "Course Code"'>
           {{ course.subjCode }} - {{ course.courseId }}
-          <button (click)='onGetReviews(course.subjCode, course.courseId)'>
+          <button mat-raised-button color='accent' (click)='onGetReviews(course.subjCode, course.courseId)'>
             View Review
           </button>
         </span>
         </li>
       </ul>
-    <button (click)='onAddToTimetable(list?.name)'>
+    <button mat-raised-button color='primary' (click)='onAddToTimetable(list?.name)'>
       Add to Timetable
     </button>
   </mat-expansion-panel>
@@ -127,7 +127,7 @@
 
   <button (click)='addCourseList(clName.value, clDescr.value,
   clPrivacy.checked, c1CC.value, c1SC.value, c2CC.value, c2SC.value,
-  c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)'>Create</button>
+  c3CC.value, c3SC.value, c4CC.value, c4SC.value, c5CC.value, c5SC.value)' mat-raised-button color='primary'>Create</button>
 </span>
 
 <br>
@@ -183,7 +183,7 @@ c3UCC.value, c3USC.value, c4UCC.value, c4USC.value, c5UCC.value, c5USC.value)' *
   <input #c5UCC value='Course Code' required  maxlength="15"/>
   <input #c5USC value='Subject Code' required  maxlength="25"/>
 
-  <button type='submit'>Edit</button>
+  <button type='submit' mat-raised-button color='primary'>Edit</button>
 </form>
 
 <br>
@@ -193,7 +193,7 @@ c3UCC.value, c3USC.value, c4UCC.value, c4USC.value, c5UCC.value, c5USC.value)' *
   <h2>Delete a Course List</h2>
   <p class="">Course List Name: </p>
   <input #clDeleteName ngModel maxlength="50"/>
-  <button id='deleteButton' (click)='onDeleteCourseList(clDeleteName.value)'>Delete</button>
+  <button id='deleteButton' mat-raised-button color='primary' (click)='onDeleteCourseList(clDeleteName.value)'>Delete</button>
 </span>
 
 <br>
