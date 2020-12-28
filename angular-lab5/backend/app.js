@@ -28,6 +28,9 @@ var AUPPolicy;
 mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority&ssl=true', {useNewUrlParser: true})
   .then(() => {
     console.log('Connection successful!');
+    https.get(url, res => {
+      console.log(res);
+    })
   })
   .catch(err => {
     console.log("Error connecting to database: ", err);
@@ -51,12 +54,6 @@ app.use((req, res, next) => {
    'GET, POST, PATCH, DELETE, OPTIONS'
   );
   next();
-})
-
-app.get('/', (req, res) => {
-  https.get(url, res => {
-    console.log(res);
-  })
 })
 
 // Adding a course review
