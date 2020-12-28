@@ -1,6 +1,8 @@
+/* JS file to assist with providing an api */
+
 const debug = require('debug')('node-angular');
 const http = require('http');
-const app = require('./backend/app')
+const app = require('./app')
 
 const verifyPort = val => {
   var port = parseInt(val, 10);
@@ -41,6 +43,7 @@ const onListening = () => {
   debug("Listening on " + bind);
 }
 
+// If port is set use it, otherwise use 3000
 const port = verifyPort(process.env.PORT || "3000");
 app.set('port', port)
 
