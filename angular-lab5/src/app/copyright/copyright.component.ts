@@ -29,6 +29,7 @@ export class CopyrightComponent implements OnInit, OnDestroy {
     this.adminListenerSubs = this.authService.getAdminStatusListener().subscribe(isAdmin => {
       this.userIsAdmin = isAdmin;
     });
+    console.log(this.apiUrl);
     this.http.get<{secAndPrivPolicy: String}>(this.apiUrl + '/copyright/getcusecpolicy').subscribe(res => {
       this.secAndPrivPolicy = res.secAndPrivPolicy;
     });
