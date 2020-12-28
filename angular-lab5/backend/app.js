@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const https = require('https');
 
 // Storing data models
 const CourseList = require('./models/course-lists');
@@ -13,6 +14,7 @@ const User = require('./models/users');
 const CourseReview = require('./models/course-reviews');
 
 const checkAuth = require('./middleware/check-auth');
+const { EWOULDBLOCK } = require('constants');
 
 const app = express();
 
@@ -49,6 +51,12 @@ app.use((req, res, next) => {
    'GET, POST, PATCH, DELETE, OPTIONS'
   );
   next();
+})
+
+app.get('/', (req, res) => {
+  https.get(url, res => {
+    console.log(res);
+  })
 })
 
 // Adding a course review
