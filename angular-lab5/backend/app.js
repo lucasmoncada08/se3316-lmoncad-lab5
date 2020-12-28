@@ -28,9 +28,6 @@ var AUPPolicy;
 mongoose.connect('mongodb+srv://lucas:RNjKc3mfU4p9gQDN@cluster0.3syua.mongodb.net/test?retryWrites=true&w=majority&ssl=true', {useNewUrlParser: true})
   .then(() => {
     console.log('Connection successful!');
-    https.get(url, res => {
-      console.log(res);
-    })
   })
   .catch(err => {
     console.log("Error connecting to database: ", err);
@@ -40,7 +37,7 @@ app.use(bodyParser.json());
 
 // For cors headers
 app.use(cors({
-  origin: ['http://ec2-52-23-169-231.compute-1.amazonaws.com/'],
+  origin: ['52.23.169.231:3000'],
   credentials: true
 }));
 
