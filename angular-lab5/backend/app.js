@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 
 // For cors headers
 app.use(cors({
-  origin: ['http://ec2-52-23-169-231.compute-1.amazonaws.com'],
+  origin: ['http://ec2-54-237-97-11.compute-1.amazonaws.com'],
   credentials: true
 }));
 
